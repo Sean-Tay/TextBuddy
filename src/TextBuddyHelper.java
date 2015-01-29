@@ -1,5 +1,5 @@
 /*
- *  TextBuddy [Build Version 0.0]
+ *  TextBuddyHelper [Build Version 0.0]
  *  Tay Siang Meng Sean
  */
 
@@ -336,11 +336,13 @@ class TextBuddyHelper{
 		try{
 			
 			int i = 1;
+			boolean fileIsEmpty = true;
 
 			line = reader.readLine();
 			
 			while (line != null)
 			{
+				fileIsEmpty = false;
 				if (i == lineNum)
 				{
 					deletedLine = line;
@@ -359,7 +361,7 @@ class TextBuddyHelper{
 				
 			}
 			
-			deleteTextComplete(nameOfFile, deletedLine);
+			deleteTextComplete(nameOfFile, deletedLine, fileIsEmpty);
 			
 			return true;
 			
@@ -378,8 +380,9 @@ class TextBuddyHelper{
 
 	private static void deleteTextInit() { 
 		
-		//Initialized deleteText() IO variables
 		resetIO();
+		
+		//Initialized deleteText() IO variables
 		
 		try {
 			fileReader = new FileReader(file);
@@ -397,20 +400,27 @@ class TextBuddyHelper{
 		tWriter = new BufferedWriter(tempWriter);
 	}
 	
-	private static void deleteTextComplete(String nameOfFile, String deletedLine) throws IOException {
-		
-		//Given line number was valid. Proceed to replace original file with edited tempfile
+	private static void deleteTextComplete(String nameOfFile, String deletedLine, boolean fileIsEmpty) throws IOException {
 		
 		resetIO();
 		
-		file.delete();
-		
-		boolean success = tempFile.renameTo(file); //Can only be done AFTER the writer closes
-		tempFile.delete();
-		
-		file = new File(nameOfFile);
-		
-		System.out.println("deleted from " + file.toString() + " : " + "\"" + deletedLine + "\"");
+		if (!fileIsEmpty)
+		{
+			//Given line number was valid. Proceed to replace original file with edited tempfile
+			
+			file.delete();
+			
+			boolean success = tempFile.renameTo(file); //Can only be done AFTER the writer closes
+			tempFile.delete();
+			
+			file = new File(nameOfFile);
+			
+			System.out.println("deleted from " + file.toString() + " : " + "\"" + deletedLine + "\"");
+		}
+		else
+		{
+			System.out.println("Unable to delete line that does not exist.");
+		}
 	}
 	
 	//clearText Operations
