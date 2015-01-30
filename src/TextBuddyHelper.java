@@ -38,7 +38,9 @@ class TextBuddyHelper{
 	
 	public TextBuddyHelper(String[] args) { 
 		
-		//Constructor to initialize IO elements
+		/**
+		 *  Constructor to initialize IO elements
+		 */
 
 		file = null;
 		tempFile = null;
@@ -56,11 +58,13 @@ class TextBuddyHelper{
 	
 	public static void start(String[] args) { 
 
-		//Starts here
+		/**
+		 * Program operation starts here
+		 */
 
 		preErrorChecks(args); //Error checks to be done before creating the file
 		
-	    startUp(args); //Creates the file
+	    createFileProcess(args); //Performs the process required to create the file
 	    
 		printWelcomeMessage();
 	    
@@ -70,7 +74,9 @@ class TextBuddyHelper{
 	
 	private static void preErrorChecks(String args[]) { 
 
-		//Add validity checks here
+		/**
+		 *  Perform validity checks on given arguments
+		 */
 		
 		if (args.length <= 0) 
 		{
@@ -79,31 +85,37 @@ class TextBuddyHelper{
 		}
 	}
 	
-	private static void startUp(String args[]) { 
+	private static void createFileProcess(String args[]) { 
 
-		//To be called upon startup of the application
+		/**
+		 * To start the file creation process
+		 */
 		
 		file = new File(args[0]); //Initializes File Handle
 		
-    	checkIfFileExists();
+    	//checkIfFileExists();
     	
 		createTheFile();
 	}
 
 	private static void checkIfFileExists() { 
 
-		//If file does not exist, print message
+		/**
+		 * Check if the file exists
+		 */
 		
 		if (!file.exists())
     	{
     		//File does not exist.
-			//printNotFileFoundMsg(file);
+			printNotFileFoundMsg(file);
     	}
 	}
 	
 	private static void printNotFileFoundMsg(File file) { 
 
-		//Optional: Prints file not found message
+		/**
+		 *  Function to print out a message stating where the newly created file will be
+		 */
 		
 		System.out.print("No file found. Creating a file called \"" + file.toString() + "\" at: ");
 		System.out.println(filePath + ".");
@@ -112,7 +124,9 @@ class TextBuddyHelper{
 
 	private static void createTheFile() { 
 
-		//Create a new file.
+		/**
+		 * Creates a new file based on given Command Line Argument
+		 */
 		
 		try {
 			
@@ -129,7 +143,9 @@ class TextBuddyHelper{
 
 	private static void printWelcomeMessage() { 
 
-		//Prints welcome message
+		/**
+		 * Prints the message that is shown upon starting the application
+		 */
 		
 		System.out.print("Welcome to TextBuddy. ");
 		System.out.print("\"" + file.toString() + "\" ");
@@ -140,7 +156,9 @@ class TextBuddyHelper{
 	
 	private static void menu() { 
 
-		//Function to call for UI
+		/**
+		 * Function to call for the UI
+		 */
 		
 		boolean exit = false;
 		Scanner sc = new Scanner(System.in);
@@ -203,6 +221,7 @@ class TextBuddyHelper{
 		}
 		
 		sc.close();
+		resetIO();
 		
 	}
 	
@@ -210,7 +229,9 @@ class TextBuddyHelper{
 	
 	private static boolean addText(String toAdd) { 
 
-		//Function to call when adding one line of text to document
+		/**
+		 * Function to call when adding one line of text to document
+		 */
 		
 		toAdd = toAdd.substring(1, toAdd.length());
 		
@@ -219,8 +240,6 @@ class TextBuddyHelper{
 			addTextInit();
 			
 			addingTheText(toAdd);
-			
-			addTextComplete();
 			
 			return true;
 			
@@ -232,7 +251,10 @@ class TextBuddyHelper{
 
 	private static void addTextInit() throws IOException { 
 
-		//Initializes addText variables
+		/**
+		 * Initializes addText variables
+		 */
+		
 		resetIO();
 		
 		fileWriter = new FileWriter(file, true);
@@ -241,38 +263,35 @@ class TextBuddyHelper{
 		
 	private static void addingTheText(String toAdd) throws IOException { 
 
-		//Actually adds the line to the file
+		/**
+		 * The code that actually adds the line to the file
+		 */
+		
 		writer.write(toAdd);
 		writer.newLine();
 		writer.flush(); //Needed to reset stream
 		
 		System.out.println("added to " + file.toString() + ": " + "\"" + toAdd + "\"");
-	}
-	
-	private static void addTextComplete() throws IOException { 
-
-		//Operations done after addText() completes
 		
-		writer.close();
-		fileWriter.close();
+		resetIO();
 	}
 	
 	//displayText Operations
 	
 	private static boolean displayText() { 
 
-		//Function to call for displaying contents of loaded text file
+		/**
+		 * Function to call for displaying contents of loaded text file
+		 */
 		
 		displayTextInit();
 		
-		int i = 1;
+		int lineNum = 1;
 		
-		//Start of actual functions
 		try {
 			
-			displayingTheText(i);
+			displayingTheText(lineNum);
 
-			displayTextComplete();
 			return true;
 			
 		} catch (IOException e) {
@@ -284,7 +303,10 @@ class TextBuddyHelper{
 
 	private static void displayTextInit() {
 		
-		//Initializes IO variables for displayText()
+		/**
+		 * Initializes IO variables for displayText()
+		 */
+		
 		resetIO();
 		
 		try {
@@ -295,7 +317,12 @@ class TextBuddyHelper{
 		reader = new BufferedReader(fileReader);
 	}
 	
-	private static void displayingTheText(int i) throws IOException {
+	private static void displayingTheText(int lineNum) throws IOException {
+		
+		/**
+		 * The code that actually displays the text to the user
+		 */
+		
 		String line = reader.readLine();
 		
 		if (line == null)
@@ -303,31 +330,27 @@ class TextBuddyHelper{
 			System.out.println(file.toString() + " is empty");
 		}
 		
-		while (line!= null)
+		while (line != null)
 		{
-			System.out.println(i + ". " + line);
+			System.out.println(lineNum + ". " + line);
 			line = reader.readLine();
-			i++;
+			lineNum++;
 		}
-	}
-
-	private static void displayTextComplete() throws IOException {
-		reader.close();
-		fileReader.close();
+		
+		resetIO();
 	}
 	
 	//deleteText Operations
 	
 	private static boolean deleteText(int lineNum) { 
 
-		//Function to call when a line is to be 'deleted' from the text file 
+		/**
+		 * Function to call when a line is to be 'deleted' from the text file 
+		 */
 		
 		String nameOfFile = file.toString();
 		String deletedLine = null;
 		String line = null;
-		
-		boolean toContinue = false;
-		boolean checkForLine1 = true;
 		
 		deleteTextInit();
 		
@@ -335,7 +358,7 @@ class TextBuddyHelper{
 		
 		try{
 			
-			int i = 1;
+			int currLineNum = 1;
 			boolean fileIsEmpty = true;
 
 			line = reader.readLine();
@@ -343,11 +366,11 @@ class TextBuddyHelper{
 			while (line != null)
 			{
 				fileIsEmpty = false;
-				if (i == lineNum)
+				if (currLineNum == lineNum)
 				{
 					deletedLine = line;
 					line = reader.readLine();
-					i++;
+					currLineNum++;
 				}
 
 				if (line != null)
@@ -357,7 +380,7 @@ class TextBuddyHelper{
 					line = reader.readLine();
 				}
 				
-				i++;
+				currLineNum++;
 				
 			}
 			
@@ -373,7 +396,6 @@ class TextBuddyHelper{
 		catch(NullPointerException e2)
 		{
 			System.out.println("Unable to continue reading. Line number given may have exceeded current number of lines in text file.");
-			e2.printStackTrace();
 		}
 		return false;
 	}
@@ -382,7 +404,9 @@ class TextBuddyHelper{
 		
 		resetIO();
 		
-		//Initialized deleteText() IO variables
+		/** 
+		 * Initializes deleteText() IO variables
+		 */
 		
 		try {
 			fileReader = new FileReader(file);
@@ -401,6 +425,10 @@ class TextBuddyHelper{
 	}
 	
 	private static void deleteTextComplete(String nameOfFile, String deletedLine, boolean fileIsEmpty) throws IOException {
+		
+		/**
+		 * Overwrites the old file with the new file that does not contain the deleted line
+		 */
 		
 		resetIO();
 		
@@ -427,7 +455,9 @@ class TextBuddyHelper{
 	
 	private static boolean clearText() { 
 
-		//Function called when deleting all content from loaded text file
+		/**
+		 * Function called when deleting all content from loaded text file
+		 */
 		
 		if (!clearTextOverwrite()) return false;
 		
@@ -438,7 +468,10 @@ class TextBuddyHelper{
 
 	private static boolean clearTextOverwrite() {
 		
-		//Overwrites main file with temp file
+		/**
+		 * Overwrites main file
+		 */
+		
 		resetIO();
 		
 		
@@ -453,6 +486,10 @@ class TextBuddyHelper{
 	}
 	
 	private static void resetIO() {
+		
+		/**
+		 * To be called to reset all IO handlers, except file and tempFile
+		 */
 		
 		try {
 			reader.close();
