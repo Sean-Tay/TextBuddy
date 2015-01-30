@@ -295,7 +295,6 @@ class TextBuddyHelper{
 			return true;
 			
 		} catch (IOException e) {
-			e.printStackTrace();
 			System.out.println(GEN_ERROR);
 			return false;
 		}		
@@ -359,15 +358,15 @@ class TextBuddyHelper{
 		try{
 			
 			int currLineNum = 1;
-			boolean fileIsEmpty = true;
+			boolean invalidLineNumGiven = true;
 
 			line = reader.readLine();
 			
 			while (line != null)
 			{
-				fileIsEmpty = false;
 				if (currLineNum == lineNum)
 				{
+					invalidLineNumGiven = false;
 					deletedLine = line;
 					line = reader.readLine();
 					currLineNum++;
@@ -384,7 +383,7 @@ class TextBuddyHelper{
 				
 			}
 			
-			deleteTextComplete(nameOfFile, deletedLine, fileIsEmpty);
+			deleteTextComplete(nameOfFile, deletedLine, invalidLineNumGiven);
 			
 			return true;
 			
@@ -439,7 +438,6 @@ class TextBuddyHelper{
 			file.delete();
 			
 			boolean success = tempFile.renameTo(file); //Can only be done AFTER the writer closes
-			tempFile.delete();
 			
 			file = new File(nameOfFile);
 			
@@ -449,6 +447,8 @@ class TextBuddyHelper{
 		{
 			System.out.println("Unable to delete line that does not exist.");
 		}
+		
+		tempFile.delete(); //Delete the tempFile after this
 	}
 	
 	//clearText Operations
