@@ -33,10 +33,9 @@ class TextBuddyHelper{
 	private static FileReader fileReader;
 	private static BufferedReader reader;
 	
-	
 	//First-Tier Operations
 	
-	public TextBuddyHelper(String[] args) { 
+	public TextBuddyHelper() { 
 		
 		/**
 		 *  Constructor to initialize IO elements
@@ -62,13 +61,13 @@ class TextBuddyHelper{
 		 * Program operation starts here
 		 */
 
-		preErrorChecks(args); //Error checks to be done before creating the file
+		preErrorChecks(args); 
 		
-	    createFileProcess(args); //Performs the process required to create the file
+	    createFileProcess(args); 
 	    
 		printWelcomeMessage();
 	    
-	    getCommand(); //Opens up UI for further user input
+	    displayMenu(); 
 		 
 	}
 	
@@ -91,7 +90,7 @@ class TextBuddyHelper{
 		 * To start the file creation process
 		 */
 		
-		file = new File(args[0]); //Initializes File Handle
+		file = new File(args[0]); 
 		
     	//checkIfFileExists();
     	
@@ -106,7 +105,6 @@ class TextBuddyHelper{
 		
 		if (!file.exists())
     	{
-    		//File does not exist.
 			printNotFileFoundMsg(file);
     	}
 	}
@@ -154,7 +152,7 @@ class TextBuddyHelper{
 	
 	//Second Tier Operations
 	
-	private static void getCommand() { 
+	private static void displayMenu() { 
 
 		/**
 		 * Function to call for the UI
@@ -192,9 +190,9 @@ class TextBuddyHelper{
 				case("delete"):
 					if (sc.hasNextInt())
 					{
-						int i = sc.nextInt();
+						int delLineNum = sc.nextInt();
 						
-						if (!canDeleteText(i))
+						if (!canDeleteText(delLineNum))
 						{
 							System.out.println(GEN_ERROR);
 						}
@@ -235,7 +233,6 @@ class TextBuddyHelper{
 		
 		toAdd = toAdd.substring(1, toAdd.length());
 		
-		//Start of actual function
 		try {
 			addTextInit();
 			
@@ -286,11 +283,9 @@ class TextBuddyHelper{
 		
 		displayTextInit();
 		
-		int lineNum = 1;
-		
 		try {
 			
-			displayingTheText(lineNum);
+			displayingTheText();
 
 			return true;
 			
@@ -316,7 +311,7 @@ class TextBuddyHelper{
 		reader = new BufferedReader(fileReader);
 	}
 	
-	private static void displayingTheText(int lineNum) throws IOException {
+	private static void displayingTheText() throws IOException {
 		
 		/**
 		 * The code that actually displays the text to the user
@@ -328,6 +323,8 @@ class TextBuddyHelper{
 		{
 			System.out.println(file.toString() + " is empty");
 		}
+		
+		int lineNum = 1;
 		
 		while (line != null)
 		{
@@ -341,7 +338,7 @@ class TextBuddyHelper{
 	
 	//canDeleteText Operations
 	
-	private static boolean canDeleteText(int lineNum) { 
+	private static boolean canDeleteText(int givenLineNum) { 
 
 		/**
 		 * Function to call when a line is to be 'deleted' from the text file 
@@ -353,8 +350,6 @@ class TextBuddyHelper{
 		
 		deleteTextInit();
 		
-		//Start of actual functions
-		
 		try{
 			
 			int currLineNum = 1;
@@ -364,7 +359,7 @@ class TextBuddyHelper{
 			
 			while (line != null)
 			{
-				if (currLineNum == lineNum)
+				if (currLineNum == givenLineNum)
 				{
 					invalidLineNumGiven = false;
 					deletedLine = line;
@@ -423,7 +418,7 @@ class TextBuddyHelper{
 		tWriter = new BufferedWriter(tempWriter);
 	}
 	
-	private static void deleteTextComplete(String nameOfFile, String deletedLine, boolean fileIsEmpty) throws IOException {
+	private static void deleteTextComplete(String nameOfFile, String deletedLine, boolean invalidLineNumGiven) throws IOException {
 		
 		/**
 		 * Overwrites the old file with the new file that does not contain the deleted line
@@ -431,9 +426,9 @@ class TextBuddyHelper{
 		
 		resetIO();
 		
-		if (!fileIsEmpty)
+		if (!invalidLineNumGiven)
 		{
-			//Given line number was valid. Proceed to replace original file with edited tempfile
+			//Given line number was valid. Proceed to replace original file with edited tempFile
 			
 			file.delete();
 			
@@ -459,7 +454,9 @@ class TextBuddyHelper{
 		 * Function called when deleting all content from loaded text file
 		 */
 		
-		if (!clearTextOverwrite()) return false;
+		if (!clearTextOverwrite()) {
+			return false;
+		}
 		
 		System.out.println("all content deleted from " + file.toString());
 		return true;
