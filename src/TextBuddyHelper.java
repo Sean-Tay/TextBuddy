@@ -175,7 +175,7 @@ class TextBuddyHelper{
 					{
 						String toAdd = sc.nextLine();
 						
-						if (!addText(toAdd))
+						if (!canAddText(toAdd))
 						{
 							System.out.println(GEN_ERROR);
 						}
@@ -183,7 +183,7 @@ class TextBuddyHelper{
 					break;
 				
 				case("display"):
-					if (!displayText())
+					if (!canDisplayText())
 					{
 						System.out.println(GEN_ERROR);
 					}
@@ -194,7 +194,7 @@ class TextBuddyHelper{
 					{
 						int i = sc.nextInt();
 						
-						if (!deleteText(i))
+						if (!canDeleteText(i))
 						{
 							System.out.println(GEN_ERROR);
 						}
@@ -202,7 +202,7 @@ class TextBuddyHelper{
 					break;
 				
 				case("clear"):
-					if (!clearText())
+					if (!canClearText())
 					{
 						System.out.println(GEN_ERROR);
 					}
@@ -225,9 +225,9 @@ class TextBuddyHelper{
 		
 	}
 	
-	//addText Operations
+	//canAddText Operations
 	
-	private static boolean addText(String toAdd) { 
+	private static boolean canAddText(String toAdd) { 
 
 		/**
 		 * Function to call when adding one line of text to document
@@ -244,7 +244,7 @@ class TextBuddyHelper{
 			return true;
 			
 		} catch (IOException e) {
-			System.out.println(GEN_ERROR);
+			
 		}
 		return false;
 	}
@@ -276,9 +276,9 @@ class TextBuddyHelper{
 		resetIO();
 	}
 	
-	//displayText Operations
+	//canDisplayText Operations
 	
-	private static boolean displayText() { 
+	private static boolean canDisplayText() { 
 
 		/**
 		 * Function to call for displaying contents of loaded text file
@@ -295,7 +295,7 @@ class TextBuddyHelper{
 			return true;
 			
 		} catch (IOException e) {
-			System.out.println(GEN_ERROR);
+			
 			return false;
 		}		
 	}
@@ -339,9 +339,9 @@ class TextBuddyHelper{
 		resetIO();
 	}
 	
-	//deleteText Operations
+	//canDeleteText Operations
 	
-	private static boolean deleteText(int lineNum) { 
+	private static boolean canDeleteText(int lineNum) { 
 
 		/**
 		 * Function to call when a line is to be 'deleted' from the text file 
@@ -390,7 +390,7 @@ class TextBuddyHelper{
 		}
 		catch (IOException e)
 		{
-			System.out.println(GEN_ERROR);
+			
 		}
 		catch(NullPointerException e2)
 		{
@@ -451,9 +451,9 @@ class TextBuddyHelper{
 		tempFile.delete(); //Delete the tempFile after this
 	}
 	
-	//clearText Operations
+	//canClearText Operations
 	
-	private static boolean clearText() { 
+	private static boolean canClearText() { 
 
 		/**
 		 * Function called when deleting all content from loaded text file
