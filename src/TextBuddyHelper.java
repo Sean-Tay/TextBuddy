@@ -68,7 +68,7 @@ class TextBuddyHelper{
 	    
 		printWelcomeMessage();
 	    
-	    menu(); //Opens up UI for further user input
+	    getCommand(); //Opens up UI for further user input
 		 
 	}
 	
@@ -154,7 +154,7 @@ class TextBuddyHelper{
 	
 	//Second Tier Operations
 	
-	private static void menu() { 
+	private static void getCommand() { 
 
 		/**
 		 * Function to call for the UI
