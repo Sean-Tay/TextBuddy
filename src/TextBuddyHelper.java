@@ -77,8 +77,7 @@ class TextBuddyHelper{
 		 *  Perform validity checks on given arguments
 		 */
 		
-		if (args.length <= 0) 
-		{
+		if (args.length <= 0) {
 	    	System.out.println("No command-line arguments given. Closing program.");
 	        System.exit(0);
 		}
@@ -103,8 +102,7 @@ class TextBuddyHelper{
 		 * Check if the file exists
 		 */
 		
-		if (!file.exists())
-    	{
+		if (!file.exists()) {
 			printNotFileFoundMsg(file);
     	}
 	}
@@ -126,16 +124,12 @@ class TextBuddyHelper{
 		 * Creates a new file based on given Command Line Argument
 		 */
 		
-		try {
-			
+		try {	
 			fileWriter = new FileWriter(file, file.exists());
 			fileWriter.close();
-			
 		} catch (IOException e) {
-			
 			System.out.println("Error with Writer. Please restart the application.");
 			System.exit(0);
-			
 		}
 	}
 
@@ -161,47 +155,46 @@ class TextBuddyHelper{
 		boolean exit = false;
 		Scanner sc = new Scanner(System.in);
 		
-		while (!exit)
-		{	
+		while (!exit) {	
+			
 			System.out.print("command: ");
 			String command = sc.next();
 			
-			switch (command.toLowerCase())
-			{
+			switch (command.toLowerCase()) {
+			
 				case("add"):
-					if (sc.hasNext())
-					{
+					if (sc.hasNext()) {
+						
 						String toAdd = sc.nextLine();
 						
-						if (!canAddText(toAdd))
-						{
+						if (!canAddText(toAdd)) {
 							System.out.println(GEN_ERROR);
 						}
 					}
 					break;
 				
 				case("display"):
-					if (!canDisplayText())
-					{
+					if (!canDisplayText()) {
+						
 						System.out.println(GEN_ERROR);
 					}
 					break;
 				
 				case("delete"):
-					if (sc.hasNextInt())
-					{
+					if (sc.hasNextInt()) {
+						
 						int delLineNum = sc.nextInt();
 						
-						if (!canDeleteText(delLineNum))
-						{
+						if (!canDeleteText(delLineNum)) {
+							
 							System.out.println(GEN_ERROR);
 						}
 					}
 					break;
 				
 				case("clear"):
-					if (!canClearText())
-					{
+					if (!canClearText()) {
+						
 						System.out.println(GEN_ERROR);
 					}
 					break;
@@ -319,15 +312,15 @@ class TextBuddyHelper{
 		
 		String line = reader.readLine();
 		
-		if (line == null)
-		{
+		if (line == null) {
+			
 			System.out.println(file.toString() + " is empty");
 		}
 		
 		int lineNum = 1;
 		
-		while (line != null)
-		{
+		while (line != null) {
+			
 			System.out.println(lineNum + ". " + line);
 			line = reader.readLine();
 			lineNum++;
@@ -350,25 +343,25 @@ class TextBuddyHelper{
 		
 		deleteTextInit();
 		
-		try{
+		try {
 			
 			int currLineNum = 1;
 			boolean invalidLineNumGiven = true;
 
 			line = reader.readLine();
 			
-			while (line != null)
-			{
-				if (currLineNum == givenLineNum)
-				{
+			while (line != null) {
+				
+				if (currLineNum == givenLineNum) {
+					
 					invalidLineNumGiven = false;
 					deletedLine = line;
 					line = reader.readLine();
 					currLineNum++;
 				}
 
-				if (line != null)
-				{
+				if (line != null) {
+					
 					tWriter.write(line);
 					tWriter.newLine();
 					line = reader.readLine();
@@ -383,12 +376,11 @@ class TextBuddyHelper{
 			return true;
 			
 		}
-		catch (IOException e)
-		{
+		catch (IOException e) {
 			
 		}
-		catch(NullPointerException e2)
-		{
+		catch(NullPointerException e2) {
+			
 			System.out.println("Unable to continue reading. Line number given may have exceeded current number of lines in text file.");
 		}
 		return false;
