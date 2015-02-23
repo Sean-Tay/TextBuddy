@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -499,15 +500,63 @@ class TextBuddyHelper{
 	
 	private static boolean canSortText() {
 		
-		return false;
+		try {
+			
+			List<String> fileContents = sortTextInit();
+			fileContents = sortingTheText(fileContents);
+			sortTextComplete(fileContents);
+			
+		} catch (IOException e) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	private static List<String> sortTextInit() throws IOException{
+		
+		/**
+		 * Initializes the variables used in canSortText()
+		 */
+		
+		List<String> fileContents = new ArrayList<String>();
+		fileContents = fillList(fileContents);
+		return fileContents;
+	}
+	
+	private static List<String> sortingTheText(List<String> fileContents) throws IOException {
+		
+		/**
+		 * Code that actually sorts the text
+		 */
+		
+		Collections.sort(fileContents);
+		
+		return fileContents;
+	}
+	
+	private static void sortTextComplete(List<String> fileContents) {
+		
+		/**
+		 * Clears and writes the given list to the file
+		 */
+		
+		
+		try {
+			canClearText();
+			writeList(fileContents);
+		} catch (IOException e) {
+			
+		}
+		
 	}
 	
 	//canSearchText Operations
-	
 	private static boolean canSearchText(String searchItem) {
 		
 		/**
 		 * Searches for a given string within the file and prints the corresponding lines of text in the file that contains the searchItem
+		 * Assumes user does not search for a particular Line Number
 		 */
 		
 		System.out.println("Search Item Given:" + searchItem);
@@ -559,7 +608,7 @@ class TextBuddyHelper{
 		} catch (FileNotFoundException e) {
 			System.out.println("Error with reader.");
 		}
-		reader = new BufferedReader (fileReader);
+		reader = new BufferedReader(fileReader);
 		
 		List<String> searchResults = new ArrayList<String>();
 		
@@ -616,7 +665,65 @@ class TextBuddyHelper{
 	
 	//Additional Functions
 	
-	private static void printList(List list)
+	private static List<String> fillList(List<String> list) throws IOException {
+		/**
+		 * Fills a given list with file contents, and returns the list
+		 */
+		
+		resetIO();
+		
+		try {
+			fileReader = new FileReader(file);
+		} catch (FileNotFoundException e) {
+			System.out.println("Error with reader");
+		}
+		reader = new BufferedReader(fileReader);
+		
+		String line = reader.readLine();
+		
+		if (line == null) {
+			
+			System.out.println(file.toString() + " is empty");
+		}
+		
+		int lineNum = 1;
+		
+		while (line != null) {
+			
+			list.add(line);
+			line = reader.readLine();
+			lineNum++;
+		}
+		
+		resetIO();
+		
+		return list;
+	}
+	
+	private static void writeList(List<String> list) throws IOException{
+		
+		/**
+		 * Appends a given list of Strings to the file
+		 */
+		
+		resetIO();
+		
+		try {
+			fileWriter = new FileWriter(file, true);
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found.");
+		}
+		writer = new BufferedWriter(fileWriter);
+		
+		for (int index=0; index<list.size(); index++) {
+			writer.write(list.get(index) + "\n");
+		}
+		
+		resetIO();
+		
+	}
+	
+	private static void printList(List<String> list)
 	{
 		/**
 		 * Given a list, prints all contents out
@@ -635,7 +742,7 @@ class TextBuddyHelper{
 		
 		/**
 		 * To be called to force reset all IO handlers, except file and tempFile
-		 * Each try-catch has to be separated to ensure forceful nature
+		 * Each try-catch has to be separated to be sure that all handlers are reset and not just some of them
 		 */
 		
 		try {
