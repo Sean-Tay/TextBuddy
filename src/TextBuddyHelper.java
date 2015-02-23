@@ -10,6 +10,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 class TextBuddyHelper{
@@ -211,7 +213,10 @@ class TextBuddyHelper{
 					break;
 				
 				case("search"):
-					if (!canSearchText()) {
+					
+					String searchItem = sc.nextLine();
+					
+					if (!canSearchText(searchItem)) {
 						
 						System.out.println(GEN_ERROR);
 					}
@@ -258,7 +263,7 @@ class TextBuddyHelper{
 	private static void addTextInit() throws IOException { 
 
 		/**
-		 * Initializes addText variables
+		 * Initializes canAddText variables
 		 */
 		
 		resetIO();
@@ -307,7 +312,7 @@ class TextBuddyHelper{
 	private static void displayTextInit() {
 		
 		/**
-		 * Initializes IO variables for displayText()
+		 * Initializes IO variables for canDisplayText()
 		 */
 		
 		resetIO();
@@ -407,7 +412,7 @@ class TextBuddyHelper{
 		resetIO();
 		
 		/** 
-		 * Initializes deleteText() IO variables
+		 * Initializes canDeleteText() IO variables
 		 */
 		
 		try {
@@ -497,16 +502,134 @@ class TextBuddyHelper{
 		return false;
 	}
 	
-	
 	//canSearchText Operations
 	
-	private static boolean canSearchText() {
+	private static boolean canSearchText(String searchItem) {
+		
+		/**
+		 * Searches for a given string within the file and prints the corresponding lines of text in the file that contains the searchItem
+		 */
+		
+		System.out.println("Search Item Given:" + searchItem);
+		
+		if (checkValidSearchString(searchItem)) {
+			
+			List<String> searchResults = searchTextInit();
+			
+			try {
+				
+				searchResults = searchingTheText(searchResults, searchItem);
+				searchTextComplete(searchResults);
+				
+			} catch (IOException e) {
+				System.out.println("Unable to search text.");
+			}
+			
+			return true;
+			
+		}
 		
 		return false;
 	}
 	
+	private static boolean checkValidSearchString(String searchItem) {
+		
+		/**
+		 * Actual checks for checking if searchItem given is valid
+		 */
+		
+		if (searchItem.length()==0) {
+			
+			System.out.println("Please enter a valid non-empty search item.");
+		}
+		
+		return true;
+	}
+	
+	private static List<String> searchTextInit() {
+		
+		/**
+		 * Initializes canSearchText() IO variables
+		 */
+
+		resetIO();
+		
+		try {
+			fileReader = new FileReader(file);
+		} catch (FileNotFoundException e) {
+			System.out.println("Error with reader.");
+		}
+		reader = new BufferedReader (fileReader);
+		
+		List<String> searchResults = new ArrayList<String>();
+		
+		return searchResults;
+	}
+	
+	private static List<String> searchingTheText(List<String> searchResults, String searchItem) throws IOException {
+		
+		/**
+		 * Code that actually does the searching
+		 */
+		
+		searchItem = searchItem.substring(1, searchItem.length());
+		
+		String line = reader.readLine();
+		
+		if (line == null) {
+			
+			System.out.println(file.toString() + " is empty");
+		}
+		
+		int lineNum = 1;
+		
+		while (line != null) {
+			
+			if (line.contains(searchItem)) {
+				
+				searchResults.add(lineNum + ". " + line);
+			}
+
+			line = reader.readLine();
+			lineNum++;
+		}
+		
+		return searchResults;
+		
+	}
+	
+	private static void searchTextComplete(List<String> searchResults) {
+		
+		/**
+		 * Prints out the list of search items found
+		 */
+
+		resetIO();
+		
+		if (searchResults.size() != 0) {
+			printList(searchResults);
+		}
+		else {
+			System.out.println("No items match or contain the search item.");
+		}
+	}
 	
 	//Additional Functions
+	
+	private static void printList(List list)
+	{
+		/**
+		 * Given a list, prints all contents out
+		 */
+		
+		System.out.println("List contents: ");
+		
+		for (int index=0; index<list.size(); index++) {
+			
+			System.out.println(list.get(index) + " ");
+		}
+		
+	}
 	
 	private static void resetIO() {
 		
