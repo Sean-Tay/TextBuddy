@@ -13,6 +13,8 @@
 public class TextBuddy {
 	public static void main(String args[])
 	{
+		//Testing new configuration on another laptop
+			
 		new TextBuddyHelper();
 		TextBuddyHelper.start(args);
 	}
