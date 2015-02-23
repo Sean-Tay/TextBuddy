@@ -19,7 +19,6 @@ class TextBuddyHelper{
 	//Constants
 	static final String GEN_ERROR = "Something went wrong!";
 	
-	
 	//File IO variables
 	private static File file;
 	private static File tempFile;
@@ -201,6 +200,22 @@ class TextBuddyHelper{
 				
 				case("exit"):
 					exit = true;
+					break;
+					
+				case("sort"):
+					if (!canSortText()) {
+						
+						System.out.println(GEN_ERROR);
+					}
+					
+					break;
+				
+				case("search"):
+					if (!canSearchText()) {
+						
+						System.out.println(GEN_ERROR);
+					}
+					
 					break;
 				
 				default:
@@ -436,7 +451,7 @@ class TextBuddyHelper{
 			System.out.println("Unable to delete line that does not exist.");
 		}
 		
-		tempFile.delete(); //Delete the tempFile after this
+		tempFile.delete();
 	}
 	
 	//canClearText Operations
@@ -447,7 +462,7 @@ class TextBuddyHelper{
 		 * Function called when deleting all content from loaded text file
 		 */
 		
-		if (!clearTextOverwrite()) {
+		if (!canOverwrite()) {
 			return false;
 		}
 		
@@ -456,7 +471,7 @@ class TextBuddyHelper{
 		
 	}
 
-	private static boolean clearTextOverwrite() {
+	private static boolean canOverwrite() {
 		
 		/**
 		 * Overwrites main file
@@ -474,11 +489,30 @@ class TextBuddyHelper{
 		
 		return true;
 	}
+		
+	//canSortText Operations
+	
+	private static boolean canSortText() {
+		
+		return false;
+	}
+	
+	
+	//canSearchText Operations
+	
+	private static boolean canSearchText() {
+		
+		return false;
+	}
+	
+	
+	//Additional Functions
 	
 	private static void resetIO() {
 		
 		/**
-		 * To be called to reset all IO handlers, except file and tempFile
+		 * To be called to force reset all IO handlers, except file and tempFile
+		 * Each try-catch has to be separated to ensure forceful nature
 		 */
 		
 		try {
@@ -557,7 +591,6 @@ class TextBuddyHelper{
 		
 		System.gc();
 	}
-	
 }
 
 
