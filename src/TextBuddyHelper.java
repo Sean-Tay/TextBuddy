@@ -206,6 +206,7 @@ class TextBuddyHelper{
 				default:
 					System.out.println("Unknown command. Please re-enter.");
 					System.out.println("Available Commands: Add, Display, Delete, Clear, Exit");
+					sc.nextLine();
 					break;
 			}
 				
