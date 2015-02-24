@@ -9,7 +9,7 @@ public class TextBuddyTester {
 	@Before
 	public void setUp() {
 		
-		TextBuddyHelper test = new TextBuddyHelper ("mytestfile.txt");
+		TextBuddyHelper test = new TextBuddyHelper ("mytestfile.txt", true);
 	}
 
 	@Test

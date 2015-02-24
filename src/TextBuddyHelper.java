@@ -27,12 +27,14 @@ public class TextBuddyHelper {
 	
 	//First-Tier Operations
 	
-	public TextBuddyHelper(String fileName) {
+	public TextBuddyHelper(String fileName, boolean toCleanLoad) {
 		
 		/**
 		 * Pseudo-Constructor to initialize elements. Should not be called by any other file.
 		 * 
-		 * @param fileName: The name of the file to be loaded.
+		 * @param fileName: The name of the file to be loaded/created.
+		 * @param toCleanLoad: If set to true, then a new file will be created, and any files of the same name will be overridden.
+		 * 					   If set to false, then if there are files of the same name, that will be loaded instead.
 		 */
 		
 		file = new File(fileName);
@@ -40,7 +42,7 @@ public class TextBuddyHelper {
 		
 		checkFileExists();
 		
-		createTheFile();
+		createTheFile(toCleanLoad);
 		
 		fileContents = fillList(fileContents, file);
 		
@@ -59,7 +61,7 @@ public class TextBuddyHelper {
 		}
 	}
 	
-	private void createTheFile() { 
+	private void createTheFile(boolean toCleanLoad) { 
 
 		/**
 		 * Creates a new file based on given Command Line Argument.
@@ -67,7 +69,7 @@ public class TextBuddyHelper {
 		
 		try {	
 			
-			FileWriter fileWriter = new FileWriter(file, file.exists());
+			FileWriter fileWriter = new FileWriter(file, !toCleanLoad);
 			fileWriter.close();
 			
 		} catch (IOException e) {
