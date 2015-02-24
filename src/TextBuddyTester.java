@@ -145,5 +145,8 @@ public class TextBuddyTester {
 	public void test011() {
 		
 		assertEquals("Items sorted. \n", testInstance.determineAndExecuteCommand(SORT_COMMAND, null));
+		assertEquals("All related content: " + "\n1. " + ITEM2 + "\n2. " + ITEM3 + "\n3. " + ITEM1 +"\n4. " + ITEM4 + "\n", testInstance.determineAndExecuteCommand(DISPLAY_COMMAND, null));
+
+		
 	}
 }
