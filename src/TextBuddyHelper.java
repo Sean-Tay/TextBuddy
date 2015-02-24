@@ -30,7 +30,7 @@ public class TextBuddyHelper {
 	public TextBuddyHelper(String fileName, boolean toCleanLoad) {
 		
 		/**
-		 * Pseudo-Constructor to initialize elements. Should not be called by any other file.
+		 * Constructor to initialize elements.
 		 * 
 		 * @param fileName: The name of the file to be loaded/created.
 		 * @param toCleanLoad: If set to true, then a new file will be created, and any files of the same name will be overridden.
@@ -65,6 +65,9 @@ public class TextBuddyHelper {
 
 		/**
 		 * Creates a new file based on given Command Line Argument.
+		 * 
+		 * @param toCleanLoad: If set to true, function will create and overwrite any file with the same name, starting clean.
+		 * 					   If set to false, function will instead load the file, and not overwrite.
 		 */
 		
 		try {	
@@ -229,14 +232,7 @@ public class TextBuddyHelper {
 			case ("exit") :
 				isSuccessful = true;
 				break;
-				
-			case ("sort") :			
-				isSuccessful = executeSortCommand();
-				break;
 			
-			case ("search") :
-				isSuccessful = executeSearchCommand(trailingContent);					
-				break;
 			
 			default :
 				System.out.println("Unknown command. Please re-enter.");
@@ -366,65 +362,11 @@ public class TextBuddyHelper {
 	
 	//executeSortCommand()
 	
-	private boolean executeSortCommand() {
-		
-		/**
-		 * Function to be called when executing the Sort command. Returns a success boolean upon completion.
-		 */
-		
-		Collections.sort(fileContents);
-		System.out.println("Items sorted.");
-		return true;
-	}
+
 
 	//executeSearchCommand()
 	
-	private boolean executeSearchCommand(String searchItem) {
-		
-		/**
-		 * Function to be called when executing the Search command. Returns a success boolean upon completion.
-		 * 
-		 * @param searchItem: String object containing string to be searched within fileContents.
-		 */
-		
-		return canSearchText(searchItem);
-	}
-	
-	private boolean canSearchText(String searchItem) {
-		
-		/**
-		 * Given a searchItem, checks if it exists in fileContents.
-		 * 
-		 * @param searchItem: String object containing string to be searched within fileContents.
-		 */
-		
-		if (isValidString(searchItem)) {
-			
-			obtainingSearchResults(searchItem);
-			return true;
-		}
-		return false;
-	}
 
-	private void obtainingSearchResults(String searchItem) {
-		
-		/**
-		 * Code that actually handles the search function.
-		 * 
-		 * @param searchItem: String object containing string to be searched within fileContents.
-		 */
-		
-		List<String> results = new ArrayList<String>();
-		
-		for (int i=0; i<fileContents.size(); i++) {
-			
-			if (fileContents.get(i).contains(searchItem)) {
-				results.add(fileContents.get(i));
-			}
-		}
-		
-		printList(results, false, fileContents);
-	}
 	
 	//Additional Functions
 	
