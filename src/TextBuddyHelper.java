@@ -27,10 +27,10 @@ public class TextBuddyHelper {
 	
 	//First-Tier Operations
 	
-	public TextBuddyHelper(String fileName) {
+	private static void TextBuddyConstructor(String fileName) {
 		
 		/**
-		 * Initialize elements.
+		 * Pseudo-Constructor to initialize elements. Should not be called by any other file.
 		 * 
 		 * @param fileName: The name of the file to be loaded.
 		 */
@@ -40,13 +40,18 @@ public class TextBuddyHelper {
 		
 		fileContents = fillList(fileContents, file);
 		
+		
 	}
 	
-	public static void startUp() {
+	public static void startUp(String fileName) {
 		
 		/**
-		 * Called by driver class when starting up.
+		 * Called by driver class when starting up. This is the regular startup route.
+		 * 
+		 * @param fileName: Name of file to be loaded.
 		 */
+		
+		TextBuddyConstructor(fileName);
 
 		checkFileExists();
 		
@@ -56,19 +61,21 @@ public class TextBuddyHelper {
 		
 		displayMenu();
 	}
-
-	private static void checkFileExists() {
+	
+	public static void testStartUp(String fileName) {
 		
 		/**
-		 * Checks if the file exists. If file does not exist, print file creation message. 
+		 * Solely used by TextBuddyTester.java for testing purposes.
+		 * 
+		 * @param fileName: The name of the file to be loaded.
 		 */
 		
-		if (!file.exists()) {
-			
-			System.out.println(file.toString() + " does not exist in root directory: " + filePath + ". Creating the file now.");
-		}
+		TextBuddyConstructor(fileName);
+		
+		createTheFile();
+		
 	}
-	
+
 	private static List<String> fillList(List<String> list, File file) {
 		
 		/**
@@ -115,6 +122,18 @@ public class TextBuddyHelper {
 		return list;
 	}
 	
+	private static void checkFileExists() {
+		
+		/**
+		 * Checks if the file exists. If file does not exist, print file creation message. 
+		 */
+		
+		if (!file.exists()) {
+			
+			System.out.println(file.toString() + " does not exist in root directory: " + filePath + ". Creating the file now.");
+		}
+	}
+	
 	private static void createTheFile() { 
 
 		/**
@@ -150,7 +169,7 @@ public class TextBuddyHelper {
 	private static void displayMenu() { 
 
 		/**
-		 * Function to call for the UI.
+		 * Function to handle the UI.
 		 */
 		
 		boolean toContinue = true;
