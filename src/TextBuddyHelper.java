@@ -227,6 +227,10 @@ public class TextBuddyHelper {
 			case ("exit") :
 				break;
 			
+			case ("search") :
+				result = executeSearchCommand(trailingContent);					
+				break;	
+			
 			
 			default :
 				result = "Unknown command. Please re-enter. " + "\n" + "Available Commands: Add, Display, Delete, Clear, Exit" + ". \n";
@@ -372,7 +376,25 @@ public class TextBuddyHelper {
 
 	//executeSearchCommand()
 	
+	private String executeSearchCommand(String searchTerm) {
+		
+	      /**
+	       * Code that actually handles the search function.
+	       * 
+	       * @param searchItem: String object containing string to be searched within fileContents.
+	       */
 
+	      List<String> results = new ArrayList<String>();
+
+	      for (int i=0; i<fileContents.size(); i++) {
+
+	          if (fileContents.get(i).contains(searchTerm)) {
+	              results.add(fileContents.get(i));
+	          }
+	      }
+
+	      return printList(results, false, fileContents);
+	}
 	
 	//Additional Functions
 	
