@@ -45,7 +45,7 @@ public class TextBuddyHelper {
 		displayMenu();
 	}
 
-	private void checkFileExists() {
+	private static void checkFileExists() {
 		
 		/**
 		 * Checks if the file exists. If file exists, read in contents of file and store in fileContents list. Else, print not found message, and leave fileContents to be empty. 
