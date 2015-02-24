@@ -341,17 +341,7 @@ public class TextBuddyHelper {
 		
 		if (checkValidString(searchItem)) {
 			
-			List<String> results = new ArrayList<String>();
-			searchItem = searchItem .substring(1, searchItem.length());
-			
-			for (int i=0; i<fileContents.size(); i++) {
-				
-				if (fileContents.get(i).contains(searchItem)) {
-					results.add(fileContents.get(i));
-				}
-			}
-			
-			printList(results, false, fileContents);
+			obtainingSearchResults(searchItem);
 			return true;
 		}
 		else {
@@ -359,6 +349,25 @@ public class TextBuddyHelper {
 			System.out.println("Please enter a non-empty search term.");
 			return false;
 		}
+	}
+
+	private static void obtainingSearchResults(String searchItem) {
+		
+		/**
+		 * Code that actually handles the search function.
+		 */
+		
+		List<String> results = new ArrayList<String>();
+		searchItem = searchItem .substring(1, searchItem.length());
+		
+		for (int i=0; i<fileContents.size(); i++) {
+			
+			if (fileContents.get(i).contains(searchItem)) {
+				results.add(fileContents.get(i));
+			}
+		}
+		
+		printList(results, false, fileContents);
 	}
 	
 	//Additional Functions
