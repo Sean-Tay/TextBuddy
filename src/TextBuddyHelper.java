@@ -21,6 +21,7 @@ public class TextBuddyHelper {
 	
 	//Constants
 	static final String GEN_ERROR_MSG = "Something went wrong!";
+	static final String SUCCESS_MSG = "Success";
 	
 	private File file;
 	private List<String> fileContents;
@@ -281,14 +282,14 @@ public class TextBuddyHelper {
 		 * @param toAdd: String to be added into fileContents.
 		 */
 		
-		if (isValidString(toAdd)) {
+		if (isValidString(toAdd).equals(SUCCESS_MSG)) {
 			
 			fileContents.add(toAdd);
 			return ("Added: " + toAdd) + ". \n";
 			
 		}
 		
-		return null;
+		return isValidString(toAdd);
 	}
 	
 	//executeDisplayCommand()
@@ -317,13 +318,17 @@ public class TextBuddyHelper {
 		
 		try {
 			
-			if (isValidString(toDelete)) {
+			if (isValidString(toDelete).equals(SUCCESS_MSG)) {
 				
 				int delLineNum = Integer.parseInt(toDelete);
 			
 				String removedLine = fileContents.remove(delLineNum - 1);
 				
 				return "Deleted: " + removedLine + ". \n";
+			}
+			else {
+				
+				return isValidString(toDelete);
 			}
 			
 			
@@ -343,8 +348,6 @@ public class TextBuddyHelper {
 			}
 				
 		}
-		
-		return null;
 	}
 	
 	//executeClearCommand()
@@ -383,22 +386,31 @@ public class TextBuddyHelper {
 	       * 
 	       * @param searchItem: String object containing string to be searched within fileContents.
 	       */
+			
+			if (isValidString(searchTerm).equals(SUCCESS_MSG)) {
+				
+			      List<String> results = new ArrayList<String>();
+		
+			      for (int i=0; i<fileContents.size(); i++) {
+		
+			          if (fileContents.get(i).contains(searchTerm)) {
+			              results.add(fileContents.get(i));
+			          }
+			      }
+			      
+			      return printList(results, false, fileContents);
+			}
+			else {
+				
+				return isValidString(searchTerm);
+			}
 
-	      List<String> results = new ArrayList<String>();
-
-	      for (int i=0; i<fileContents.size(); i++) {
-
-	          if (fileContents.get(i).contains(searchTerm)) {
-	              results.add(fileContents.get(i));
-	          }
-	      }
-
-	      return printList(results, false, fileContents);
+	      
 	}
 	
 	//Additional Functions
 	
-	private boolean isValidString(String toCheck) {
+	private String isValidString(String toCheck) {
 		
 		/**
 		 * Check if given String is valid.
@@ -408,11 +420,10 @@ public class TextBuddyHelper {
 		
 		if (toCheck.trim().isEmpty()) {
 			
-			System.out.println("Please make sure your input contains at least one letter or number."); 
-			return false;
+			return "Please make sure your input contains at least one letter or number" + ". \n";
 		}
 		
-		return true;
+		return SUCCESS_MSG;
 		
 	}
 		
