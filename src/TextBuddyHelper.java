@@ -232,6 +232,9 @@ public class TextBuddyHelper {
 				result = executeSearchCommand(trailingContent);					
 				break;	
 			
+			case ("sort") :			
+				result = executeSortCommand();
+				break;
 			
 			default :
 				result = "Unknown command. Please re-enter. " + "\n" + "Available Commands: Add, Display, Delete, Clear, Exit" + ". \n";
@@ -375,7 +378,16 @@ public class TextBuddyHelper {
 	
 	//executeSortCommand()
 	
-
+	private String executeSortCommand() {
+	
+	    /**
+	     * Function to be called when executing the Sort command. Returns a success boolean upon completion.
+	     */
+	
+	    Collections.sort(fileContents);
+	    return ("Items sorted" + ". \n");
+	    
+	}
 
 	//executeSearchCommand()
 	
