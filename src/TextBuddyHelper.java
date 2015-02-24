@@ -20,7 +20,7 @@ public class TextBuddyHelper {
 	static String filePath = System.getProperty("user.dir");
 	
 	//Constants
-	static final String GEN_ERROR = "Something went wrong!";
+	static final String GEN_ERROR_MSG = "Something went wrong!";
 	
 	private static File file;
 	private static List<String> fileContents;
@@ -155,7 +155,12 @@ public class TextBuddyHelper {
 				trailingContent = trailingContent.substring(1, trailingContent.length());
 			}
 			
-			determineCommand(command, trailingContent);
+			boolean success = determineCommand(command, trailingContent);
+			
+			if (!success) {
+				
+				System.out.println(GEN_ERROR_MSG);
+			}
 			
 			writeList(fileContents, file);
 
@@ -169,40 +174,43 @@ public class TextBuddyHelper {
 		sc.close();
 	}
 
-	public static void determineCommand(String command,
+	public static boolean determineCommand(String command,
 			String trailingContent) {
 		
 		/**
 		 * The function that determines the command-type.
 		 */
 		
+		boolean success = false;
+		
 		switch (command.toLowerCase()) {
 		
 			case ("add") :
-				executeAddCommand(trailingContent);
+				success = executeAddCommand(trailingContent);
 				break;
 			
 			case ("display") :			
-				executeDisplayCommand();
+				success = executeDisplayCommand();
 				break;
 			
 			case ("delete") :				
-				executeDeleteCommand(trailingContent);
+				success = executeDeleteCommand(trailingContent);
 				break;
 			
 			case ("clear") :
-				executeClearCommand();
+				success = executeClearCommand();
 				break;
 			
 			case ("exit") :
+				success = true;
 				break;
 				
 			case ("sort") :			
-				executeSortCommand();
+				success = executeSortCommand();
 				break;
 			
 			case ("search") :
-				executeSearchCommand(trailingContent);					
+				success = executeSearchCommand(trailingContent);					
 				break;
 			
 			default :
@@ -210,8 +218,9 @@ public class TextBuddyHelper {
 				System.out.println("Available Commands: Add, Display, Delete, Clear, Exit");
 				break;
 		}
+		
+		return success;
 	}
-
 
 	private static void writeList(List<String> list, File file){
 		
@@ -239,27 +248,13 @@ public class TextBuddyHelper {
 
 	//executeAddCommand()
 	
-	public static void executeAddCommand(String trailingContent) {
-		
-		/**
-		 *  Function to be called when executing Add command
-		 */
-		
-		if (checkValidString(trailingContent)) {
-			
-			if (!canAddText(trailingContent)) {
-				System.out.println(GEN_ERROR);
-			}
-		}
-	}
-	
-	private static boolean canAddText(String toAdd) {
+	private static boolean executeAddCommand(String toAdd) {
 		
 		/**
 		 * Appends a given line of text to fileContents
 		 */
 		
-		if (checkValidString(toAdd)) {
+		if (isValidString(toAdd)) {
 			
 			fileContents.add(toAdd);
 			System.out.println("Added: " + toAdd);
@@ -267,95 +262,56 @@ public class TextBuddyHelper {
 		}
 		
 		return false;
-		
 	}
 	
 	//executeDisplayCommand()
 	
-	public static void executeDisplayCommand() {
-		
-		/**
-		 * Function to be called when executing Display command
-		 */
-		
-		if (!canDisplayText()) {
-			
-			System.out.println(GEN_ERROR);
-		}
-	}
-	
-	private static boolean canDisplayText() {
+	private static boolean executeDisplayCommand() {
 		
 		/**
 		 * Prints fileContents.
 		 */
 		
-		printList(fileContents, true, fileContents);
+		printList(fileContents, true, null);
 		return true;
 	}
 	
 	//executeDeleteCommand()
 	
-	public static void executeDeleteCommand(String trailingContent) {
+	private static boolean executeDeleteCommand(String toDelete) {
 		
 		/**
-		 * Function to be called when executing Delete Command
+		 * Function to be called when executing Delete Command. Returns a success boolean upon completion.
 		 * Assumes user enters a Line Number
-		 */
-		
-		try {
-			
-			int delLineNum = Integer.parseInt(trailingContent);
-		
-			if (!canDeleteText(delLineNum)) {
-				
-				System.out.println(GEN_ERROR);
-			}
-			
-		} catch (NumberFormatException e) {
-			
-			System.out.println("Please only input a natural number in the range: 1 to " + fileContents.size() + ".");
-			
-		}
-	}
-	
-	private static boolean canDeleteText(int lineNum) {
-		
-		/**
-		 * Deletes a line from fileContents
 		 * Assumes user does not take into account that the starting index is 0 and not 1
 		 */
 		
 		try {
 			
-			String removedLine = fileContents.remove(lineNum - 1);
+			int delLineNum = Integer.parseInt(toDelete);
+		
+			String removedLine = fileContents.remove(delLineNum - 1);
 			System.out.println("Deleted: " + removedLine);
+			return true;
+			
+		} catch (NumberFormatException e) {
+			
+			System.out.println("Please only input a natural number in the range: 1 to " + fileContents.size() + ".");
+			return false;
 			
 		} catch (IndexOutOfBoundsException e) {
+			
 			System.out.println("Unable to remove non-existent line. Please input a number from: 1 to " + fileContents.size() + ".");
 			return false;
 		}
-		return true;
 	}
-
+	
 	//executeClearCommand()
 	
-	public static void executeClearCommand() {
+	private static boolean executeClearCommand() {
 		
 		/**
-		 * Function to be called when executing the Clear command.
-		 */
-		
-		if (!canClearText()) {
-			
-			System.out.println(GEN_ERROR);
-		}
-	}
-	
-	private static boolean canClearText() {
-		
-		/**
-		 * Deletes all content from fileContents
+		 * Function to be called when executing the Clear command. Returns a success boolean upon completion.
 		 */
 		
 		fileContents.clear();
@@ -365,22 +321,10 @@ public class TextBuddyHelper {
 	
 	//executeSortCommand()
 	
-	public static void executeSortCommand() {
+	private static boolean executeSortCommand() {
 		
 		/**
-		 * Function to be called when executing the Sort command.
-		 */
-		
-		if (!canSortText()) {
-			
-			System.out.println(GEN_ERROR);
-		}
-	}
-	
-	private static boolean canSortText() {
-		
-		/**
-		 * Sorts fileContents
+		 * Function to be called when executing the Sort command. Returns a success boolean upon completion.
 		 */
 		
 		Collections.sort(fileContents);
@@ -390,16 +334,13 @@ public class TextBuddyHelper {
 
 	//executeSearchCommand()
 	
-	public static void executeSearchCommand(String searchItem) {
+	private static boolean executeSearchCommand(String searchItem) {
 		
 		/**
-		 * Function to be called when executing the Search command.
+		 * Function to be called when executing the Search command. Returns a success boolean upon completion.
 		 */
 		
-		if (!canSearchText(searchItem)) {
-			
-			System.out.println(GEN_ERROR);
-		}
+		return canSearchText(searchItem);
 	}
 	
 	private static boolean canSearchText(String searchItem) {
@@ -408,7 +349,7 @@ public class TextBuddyHelper {
 		 * Given a searchItem, checks if it exists in fileContents.
 		 */
 		
-		if (checkValidString(searchItem)) {
+		if (isValidString(searchItem)) {
 			
 			obtainingSearchResults(searchItem);
 			return true;
@@ -439,7 +380,7 @@ public class TextBuddyHelper {
 	}
 	
 	//Additional Functions
-	private static boolean checkValidString(String toCheck) {
+	private static boolean isValidString(String toCheck) {
 		
 		/**
 		 * Check if given String is valid.
@@ -486,14 +427,20 @@ public class TextBuddyHelper {
 			/**
 			 * Prints accompanying index in relation to secondList
 			 */
-			
-			System.out.println("Results: ");
-			
-			for (int index=0; index<list.size(); index++) {
+			if (secondList != null) {
 				
-				System.out.println((secondList.indexOf(list.get(index))+1) + ". " + list.get(index));
-			}
+				System.out.println("Results: ");
+				
+				for (int index=0; index<list.size(); index++) {
+					
+					System.out.println((secondList.indexOf(list.get(index))+1) + ". " + list.get(index));
+				}
 			
+			}
+			else {
+				
+				System.out.println("Null list given.");
+			}
 			
 		}
 			
