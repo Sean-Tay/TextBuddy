@@ -36,6 +36,14 @@ public class TextBuddyHelper {
 		file = new File(fileName);
 		fileContents = new ArrayList<String>();
 		
+	}
+	
+	public static void startUp() {
+		
+		/**
+		 * Called by driver class when starting up
+		 */
+
 		checkFileExists();
 		
 		createTheFile();
