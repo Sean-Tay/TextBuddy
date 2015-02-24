@@ -139,11 +139,11 @@ public class TextBuddyHelper {
 		/**
 		 * Function to call for the UI
 		 */
-		
-		boolean exit = false;
+		boolean toContinue = true;
 		Scanner sc = new Scanner(System.in);
 		
-		while (!exit) {	
+		while (toContinue) {	
+			
 			
 			System.out.print("command: ");
 			
@@ -155,56 +155,68 @@ public class TextBuddyHelper {
 				trailingContent = trailingContent.substring(1, trailingContent.length());
 			}
 			
-			switch (command.toLowerCase()) {
+			determineCommand(command, trailingContent);
 			
-				case ("add") :
-					executeAddCommand(trailingContent);
-					break;
+			writeList(fileContents, file);
+
+			if (command.equals("exit")) {
 				
-				case ("display") :			
-					executeDisplayCommand();
-					break;
-				
-				case ("delete") :				
-					executeDeleteCommand(trailingContent);
-					break;
-				
-				case ("clear") :
-					executeClearCommand();
-					break;
-				
-				case ("exit") :
-					exit = true;
-					break;
-					
-				case ("sort") :			
-					executeSortCommand();
-					break;
-				
-				case ("search") :
-					executeSearchCommand(trailingContent);					
-					break;
-				
-				default :
-					System.out.println("Unknown command. Please re-enter.");
-					System.out.println("Available Commands: Add, Display, Delete, Clear, Exit");
-					break;
+				toContinue = false;
 			}
-			
-			writeList(fileContents);
 	
 		}
 		
 		sc.close();
+	}
+
+	public static void determineCommand(String command,
+			String trailingContent) {
 		
+		/**
+		 * The function that determines the command-type.
+		 */
+		
+		switch (command.toLowerCase()) {
+		
+			case ("add") :
+				executeAddCommand(trailingContent);
+				break;
+			
+			case ("display") :			
+				executeDisplayCommand();
+				break;
+			
+			case ("delete") :				
+				executeDeleteCommand(trailingContent);
+				break;
+			
+			case ("clear") :
+				executeClearCommand();
+				break;
+			
+			case ("exit") :
+				break;
+				
+			case ("sort") :			
+				executeSortCommand();
+				break;
+			
+			case ("search") :
+				executeSearchCommand(trailingContent);					
+				break;
+			
+			default :
+				System.out.println("Unknown command. Please re-enter.");
+				System.out.println("Available Commands: Add, Display, Delete, Clear, Exit");
+				break;
+		}
 	}
 
 
-
-	private static void writeList(List<String> list){
+	private static void writeList(List<String> list, File file){
 		
 		/**
-		 * Writes a given list of Strings to the file
+		 * Writes a given list of Strings to a file
 		 */
 		
 		try {
