@@ -13,6 +13,7 @@
 public class TextBuddy {
 	public static void main(String args[])
 	{
-		TextBuddyHelper.startUp(args[0]);
+		TextBuddyHelper instance = new TextBuddyHelper(args[0]);
+		instance.startUp();
 	}
 }

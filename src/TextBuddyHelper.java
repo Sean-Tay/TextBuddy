@@ -17,17 +17,17 @@ import java.util.Scanner;
 
 public class TextBuddyHelper {
 	
-	static String filePath = System.getProperty("user.dir");
+	String filePath = System.getProperty("user.dir");
 	
 	//Constants
 	static final String GEN_ERROR_MSG = "Something went wrong!";
 	
-	private static File file;
-	private static List<String> fileContents;
+	private File file;
+	private List<String> fileContents;
 	
 	//First-Tier Operations
 	
-	private static void TextBuddyConstructor(String fileName) {
+	public TextBuddyHelper(String fileName) {
 		
 		/**
 		 * Pseudo-Constructor to initialize elements. Should not be called by any other file.
@@ -38,45 +38,47 @@ public class TextBuddyHelper {
 		file = new File(fileName);
 		fileContents = new ArrayList<String>();
 		
+		checkFileExists();
+		
+		createTheFile();
+		
 		fileContents = fillList(fileContents, file);
 		
 		
 	}
 	
-	public static void startUp(String fileName) {
+	private void checkFileExists() {
 		
 		/**
-		 * Called by driver class when starting up. This is the regular startup route.
-		 * 
-		 * @param fileName: Name of file to be loaded.
+		 * Checks if the file exists. If file does not exist, print file creation message. 
 		 */
 		
-		TextBuddyConstructor(fileName);
-
-		checkFileExists();
-		
-		createTheFile();
-		
-		printWelcomeMessage();
-		
-		displayMenu();
+		if (!file.exists()) {
+			
+			System.out.println(file.toString() + " does not exist in root directory: " + filePath + ". Creating the file now.");
+		}
 	}
 	
-	public static void testStartUp(String fileName) {
-		
+	private void createTheFile() { 
+
 		/**
-		 * Solely used by TextBuddyTester.java for testing purposes.
-		 * 
-		 * @param fileName: The name of the file to be loaded.
+		 * Creates a new file based on given Command Line Argument.
 		 */
 		
-		TextBuddyConstructor(fileName);
-		
-		createTheFile();
-		
+		try {	
+			
+			FileWriter fileWriter = new FileWriter(file, file.exists());
+			fileWriter.close();
+			
+		} catch (IOException e) {
+			
+			System.out.println("Error with Writer. Please restart the application.");
+			System.exit(0);
+			
+		}
 	}
-
-	private static List<String> fillList(List<String> list, File file) {
+	
+	private List<String> fillList(List<String> list, File file) {
 		
 		/**
 		 * Fills a given list with given file contents, and returns the list.
@@ -96,14 +98,16 @@ public class TextBuddyHelper {
 				
 				System.out.println(file.toString() + " is empty.");
 			}
-			
-			int lineNum = 1;
-			
-			while (line != null) {
+			else {	
 				
-				list.add(line);
-				line = reader.readLine();
-				lineNum++;
+				int lineNum = 1;
+				
+				while (line != null) {
+					
+					list.add(line);
+					line = reader.readLine();
+					lineNum++;
+				}
 			}
 			
 			reader.close();
@@ -117,43 +121,26 @@ public class TextBuddyHelper {
 			
 			System.out.println("Error with loading content from file.");
 			
+		} catch (NullPointerException e) {
+			
+			fillList(new ArrayList<String>(), file);
 		}
 		
 		return list;
 	}
 	
-	private static void checkFileExists() {
+	public void startUp() {
 		
 		/**
-		 * Checks if the file exists. If file does not exist, print file creation message. 
+		 * Called by driver class when starting up. This is the regular startup route.
+		 * 
 		 */
+		printWelcomeMessage();
 		
-		if (!file.exists()) {
-			
-			System.out.println(file.toString() + " does not exist in root directory: " + filePath + ". Creating the file now.");
-		}
-	}
-	
-	private static void createTheFile() { 
-
-		/**
-		 * Creates a new file based on given Command Line Argument.
-		 */
-		
-		try {	
-			
-			FileWriter fileWriter = new FileWriter(file, file.exists());
-			fileWriter.close();
-			
-		} catch (IOException e) {
-			
-			System.out.println("Error with Writer. Please restart the application.");
-			System.exit(0);
-			
-		}
+		displayMenu();
 	}
 
-	private static void printWelcomeMessage() { 
+	private void printWelcomeMessage() { 
 
 		/**
 		 * Prints the message that is shown upon starting the application.
@@ -166,7 +153,7 @@ public class TextBuddyHelper {
 
 	//Second-Tier Operations
 	
-	private static void displayMenu() { 
+	private void displayMenu() { 
 
 		/**
 		 * Function to handle the UI.
@@ -207,7 +194,7 @@ public class TextBuddyHelper {
 		sc.close();
 	}
 
-	public static boolean determineAndExecuteCommand(String command,
+	public boolean determineAndExecuteCommand(String command,
 			String trailingContent) {
 		
 		/**
@@ -258,7 +245,7 @@ public class TextBuddyHelper {
 		return isSuccessful;
 	}
 
-	private static void writeList(List<String> list, File file){
+	private void writeList(List<String> list, File file){
 		
 		/**
 		 * Writes a given list of Strings to a file
@@ -287,7 +274,7 @@ public class TextBuddyHelper {
 
 	//executeAddCommand()
 	
-	private static boolean executeAddCommand(String toAdd) {
+	private boolean executeAddCommand(String toAdd) {
 		
 		/**
 		 * Appends a given line of text to fileContents
@@ -307,7 +294,7 @@ public class TextBuddyHelper {
 	
 	//executeDisplayCommand()
 	
-	private static boolean executeDisplayCommand() {
+	private boolean executeDisplayCommand() {
 		
 		/**
 		 * Prints fileContents.
@@ -319,7 +306,7 @@ public class TextBuddyHelper {
 	
 	//executeDeleteCommand()
 	
-	private static boolean executeDeleteCommand(String toDelete) {
+	private boolean executeDeleteCommand(String toDelete) {
 		
 		/**
 		 * Function to be called when executing Delete Command. Returns a success boolean upon completion.
@@ -347,7 +334,16 @@ public class TextBuddyHelper {
 			
 		} catch (IndexOutOfBoundsException e) {
 			
-			System.out.println("Unable to remove non-existent line. Please input a number from: 1 to " + fileContents.size() + ".");
+			if (!fileContents.isEmpty()) {
+				
+				System.out.println("Unable to remove non-existent line. Please input a number from: 1 to " + fileContents.size() + ".");
+			}
+			else {
+				
+				System.out.println("File is already empty");
+				return true;
+			}
+				
 		}
 		
 		return false;
@@ -355,7 +351,7 @@ public class TextBuddyHelper {
 	
 	//executeClearCommand()
 	
-	private static boolean executeClearCommand() {
+	private boolean executeClearCommand() {
 		
 		/**
 		 * Function to be called when executing the Clear command. Returns a success boolean upon completion.
@@ -368,7 +364,7 @@ public class TextBuddyHelper {
 	
 	//executeSortCommand()
 	
-	private static boolean executeSortCommand() {
+	private boolean executeSortCommand() {
 		
 		/**
 		 * Function to be called when executing the Sort command. Returns a success boolean upon completion.
@@ -381,7 +377,7 @@ public class TextBuddyHelper {
 
 	//executeSearchCommand()
 	
-	private static boolean executeSearchCommand(String searchItem) {
+	private boolean executeSearchCommand(String searchItem) {
 		
 		/**
 		 * Function to be called when executing the Search command. Returns a success boolean upon completion.
@@ -392,7 +388,7 @@ public class TextBuddyHelper {
 		return canSearchText(searchItem);
 	}
 	
-	private static boolean canSearchText(String searchItem) {
+	private boolean canSearchText(String searchItem) {
 		
 		/**
 		 * Given a searchItem, checks if it exists in fileContents.
@@ -408,7 +404,7 @@ public class TextBuddyHelper {
 		return false;
 	}
 
-	private static void obtainingSearchResults(String searchItem) {
+	private void obtainingSearchResults(String searchItem) {
 		
 		/**
 		 * Code that actually handles the search function.
@@ -430,7 +426,7 @@ public class TextBuddyHelper {
 	
 	//Additional Functions
 	
-	private static boolean isValidString(String toCheck) {
+	private boolean isValidString(String toCheck) {
 		
 		/**
 		 * Check if given String is valid.
@@ -448,7 +444,7 @@ public class TextBuddyHelper {
 		
 	}
 		
-	private static void printList(List<String> list, boolean defaultBehavior, List<String> secondList) {
+	private void printList(List<String> list, boolean defaultBehavior, List<String> secondList) {
 		
 		/**
 		 * Given a list, prints all contents out, behavior changes according to second argument
