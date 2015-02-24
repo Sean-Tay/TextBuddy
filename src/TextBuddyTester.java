@@ -112,5 +112,12 @@ public class TextBuddyTester {
 		
 		assertEquals("All content cleared. \n", testInstance.determineAndExecuteCommand(CLEAR_COMMAND, null));	
 	}
+	
+	@Test
+	//Test for unexpected Commands.
+	public void test8() {
+		
+		assertEquals("Unknown command. Please re-enter. " + "\n" + "Available Commands: Add, Display, Delete, Clear, Exit" + ". \n", testInstance.determineAndExecuteCommand("lalala", null));
+	}
 		
 }
