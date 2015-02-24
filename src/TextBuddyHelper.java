@@ -36,7 +36,7 @@ public class TextBuddyHelper {
 		file = new File(fileName);
 		fileContents = new ArrayList<String>();
 		
-		fileContents = fillList(fileContents);
+		fileContents = fillList(fileContents, file);
 		
 	}
 	
@@ -67,10 +67,10 @@ public class TextBuddyHelper {
 		}
 	}
 	
-	private static List<String> fillList(List<String> list) {
+	private static List<String> fillList(List<String> list, File file) {
 		
 		/**
-		 * Fills a given list with file contents, and returns the list
+		 * Fills a given list with given file contents, and returns the list
 		 */
 		
 		try {
