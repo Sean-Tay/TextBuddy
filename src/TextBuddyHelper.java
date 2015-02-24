@@ -331,18 +331,26 @@ public class TextBuddyHelper {
 		 * Given a searchItem, checks if it exists in fileContents.
 		 */
 		
-		List<String> results = new ArrayList<String>();
-		searchItem = searchItem .substring(1, searchItem.length());
-		
-		for (int i=0; i<fileContents.size(); i++) {
+		if (checkValidString(searchItem)) {
 			
-			if (fileContents.get(i).contains(searchItem)) {
-				results.add(fileContents.get(i));
+			List<String> results = new ArrayList<String>();
+			searchItem = searchItem .substring(1, searchItem.length());
+			
+			for (int i=0; i<fileContents.size(); i++) {
+				
+				if (fileContents.get(i).contains(searchItem)) {
+					results.add(fileContents.get(i));
+				}
 			}
+			
+			printList(results, false, fileContents);
+			return true;
 		}
-		
-		printList(results, false, fileContents);
-		return true;
+		else {
+
+			System.out.println("Please enter a non-empty search term.");
+			return false;
+		}
 	}
 	
 	//Additional Functions
@@ -353,6 +361,10 @@ public class TextBuddyHelper {
 		 */
 		
 		if (toCheck.isEmpty()) {
+			return false;
+		}
+		
+		if (toCheck.equals(" ")) {
 			return false;
 		}
 		
