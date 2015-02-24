@@ -410,6 +410,7 @@ public class TextBuddyHelper {
 	}
 	
 	//Additional Functions
+	
 	private static boolean isValidString(String toCheck) {
 		
 		/**
