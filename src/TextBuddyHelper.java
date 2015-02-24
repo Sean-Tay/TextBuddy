@@ -30,7 +30,9 @@ public class TextBuddyHelper {
 	public TextBuddyHelper(String fileName) {
 		
 		/**
-		 * Initialize elements
+		 * Initialize elements.
+		 * 
+		 * @param fileName: The name of the file to be loaded.
 		 */
 		
 		file = new File(fileName);
@@ -43,7 +45,7 @@ public class TextBuddyHelper {
 	public static void startUp() {
 		
 		/**
-		 * Called by driver class when starting up
+		 * Called by driver class when starting up.
 		 */
 
 		checkFileExists();
@@ -70,7 +72,10 @@ public class TextBuddyHelper {
 	private static List<String> fillList(List<String> list, File file) {
 		
 		/**
-		 * Fills a given list with given file contents, and returns the list
+		 * Fills a given list with given file contents, and returns the list.
+		 * 
+		 * @param list: The List<String> object to be filled with file contents.
+		 * @param file: the File object to be used to fill up list with its contents.
 		 */
 		
 		try {
@@ -113,7 +118,7 @@ public class TextBuddyHelper {
 	private static void createTheFile() { 
 
 		/**
-		 * Creates a new file based on given Command Line Argument
+		 * Creates a new file based on given Command Line Argument.
 		 */
 		
 		try {	
@@ -132,7 +137,7 @@ public class TextBuddyHelper {
 	private static void printWelcomeMessage() { 
 
 		/**
-		 * Prints the message that is shown upon starting the application
+		 * Prints the message that is shown upon starting the application.
 		 */
 		
 		System.out.print("Welcome to TextBuddy. ");
@@ -145,8 +150,9 @@ public class TextBuddyHelper {
 	private static void displayMenu() { 
 
 		/**
-		 * Function to call for the UI
+		 * Function to call for the UI.
 		 */
+		
 		boolean toContinue = true;
 		Scanner sc = new Scanner(System.in);
 		
@@ -187,6 +193,9 @@ public class TextBuddyHelper {
 		
 		/**
 		 * The function that determines the command-type.
+		 * 
+		 * @param command: The type of command to be executed.
+		 * @param trailingContent: Any input entered after the command.
 		 */
 		
 		boolean isSuccessful = false;
@@ -234,6 +243,9 @@ public class TextBuddyHelper {
 		
 		/**
 		 * Writes a given list of Strings to a file
+		 * 
+		 * @param list: The List object that is the reference for the content to be written into file.
+		 * @param file: The File object for the contents of list to be written to.
 		 */
 		
 		try {
@@ -260,6 +272,8 @@ public class TextBuddyHelper {
 		
 		/**
 		 * Appends a given line of text to fileContents
+		 * 
+		 * @param toAdd: String to be added into fileContents.
 		 */
 		
 		if (isValidString(toAdd)) {
@@ -292,6 +306,8 @@ public class TextBuddyHelper {
 		 * Function to be called when executing Delete Command. Returns a success boolean upon completion.
 		 * Assumes user enters a Line Number
 		 * Assumes user does not take into account that the starting index is 0 and not 1
+		 * 
+		 * @param toDelete: A string containing the line number that is to be deleted.
 		 */
 		
 		try {
@@ -350,6 +366,8 @@ public class TextBuddyHelper {
 		
 		/**
 		 * Function to be called when executing the Search command. Returns a success boolean upon completion.
+		 * 
+		 * @param searchItem: String object containing string to be searched within fileContents.
 		 */
 		
 		return canSearchText(searchItem);
@@ -359,6 +377,8 @@ public class TextBuddyHelper {
 		
 		/**
 		 * Given a searchItem, checks if it exists in fileContents.
+		 * 
+		 * @param searchItem: String object containing string to be searched within fileContents.
 		 */
 		
 		if (isValidString(searchItem)) {
@@ -373,6 +393,8 @@ public class TextBuddyHelper {
 		
 		/**
 		 * Code that actually handles the search function.
+		 * 
+		 * @param searchItem: String object containing string to be searched within fileContents.
 		 */
 		
 		List<String> results = new ArrayList<String>();
@@ -392,6 +414,8 @@ public class TextBuddyHelper {
 		
 		/**
 		 * Check if given String is valid.
+		 * 
+		 * @param toCheck: The String object to be checked.
 		 */
 		
 		if (toCheck.trim().isEmpty()) {
@@ -404,19 +428,25 @@ public class TextBuddyHelper {
 		
 	}
 		
-	private static void printList(List<String> list, boolean defaultBehavior, List<String> secondList)
-	{
+	private static void printList(List<String> list, boolean defaultBehavior, List<String> secondList) {
+		
 		/**
 		 * Given a list, prints all contents out, behavior changes according to second argument
+		 * 
+		 * @param list: The List object to be printed.
+		 * @param defaultBehavior: Determines function behavior. If this is true, it will print accompanying indexes of each entry as per normal. 
+		 * 						   If this is false, it will print accompanying indexes of each entry in relation to their position in the second list.
+		 * @param secondList: See defaultBehavior.
 		 */
 		
 		if (defaultBehavior) {
 			
-			/**
+			/*
 			 * Prints accompanying index as per normal
 			 */
 			
 			if (!list.isEmpty()) {
+				
 				System.out.println("All related content: ");
 				
 				for (int index = 0; index < list.size(); index++) {
@@ -424,14 +454,14 @@ public class TextBuddyHelper {
 					System.out.println((index+1) + ". " + list.get(index));
 				}
 			}
-			else
-			{
+			else {
+				
 				System.out.println("No content to display.");
 			}
 		}
 		else {
 			
-			/**
+			/*
 			 * Prints accompanying index in relation to secondList
 			 */
 			if (secondList != null) {
