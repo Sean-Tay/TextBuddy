@@ -98,9 +98,13 @@ public class TextBuddyHelper {
 			fileReader.close();
 			
 		} catch (FileNotFoundException e) {
+			
 			System.out.println("Error with reader.");
+			
 		} catch (IOException e) {
+			
 			System.out.println("Error with loading content from file.");
+			
 		}
 		
 		return list;
@@ -113,11 +117,15 @@ public class TextBuddyHelper {
 		 */
 		
 		try {	
+			
 			FileWriter fileWriter = new FileWriter(file, file.exists());
 			fileWriter.close();
+			
 		} catch (IOException e) {
+			
 			System.out.println("Error with Writer. Please restart the application.");
 			System.exit(0);
+			
 		}
 	}
 
@@ -155,9 +163,9 @@ public class TextBuddyHelper {
 				trailingContent = trailingContent.substring(1, trailingContent.length());
 			}
 			
-			boolean success = determineAndExecuteCommand(command, trailingContent);
+			boolean isSuccessful = determineAndExecuteCommand(command, trailingContent);
 			
-			if (!success) {
+			if (!isSuccessful) {
 				
 				System.out.println(GEN_ERROR_MSG);
 			}
@@ -181,36 +189,36 @@ public class TextBuddyHelper {
 		 * The function that determines the command-type.
 		 */
 		
-		boolean success = false;
+		boolean isSuccessful = false;
 		
 		switch (command.toLowerCase()) {
 		
 			case ("add") :
-				success = executeAddCommand(trailingContent);
+				isSuccessful = executeAddCommand(trailingContent);
 				break;
 			
 			case ("display") :			
-				success = executeDisplayCommand();
+				isSuccessful = executeDisplayCommand();
 				break;
 			
 			case ("delete") :				
-				success = executeDeleteCommand(trailingContent);
+				isSuccessful = executeDeleteCommand(trailingContent);
 				break;
 			
 			case ("clear") :
-				success = executeClearCommand();
+				isSuccessful = executeClearCommand();
 				break;
 			
 			case ("exit") :
-				success = true;
+				isSuccessful = true;
 				break;
 				
 			case ("sort") :			
-				success = executeSortCommand();
+				isSuccessful = executeSortCommand();
 				break;
 			
 			case ("search") :
-				success = executeSearchCommand(trailingContent);					
+				isSuccessful = executeSearchCommand(trailingContent);					
 				break;
 			
 			default :
@@ -219,7 +227,7 @@ public class TextBuddyHelper {
 				break;
 		}
 		
-		return success;
+		return isSuccessful;
 	}
 
 	private static void writeList(List<String> list, File file){
@@ -232,7 +240,7 @@ public class TextBuddyHelper {
 			FileWriter fileWriter = new FileWriter(file, false);
 			BufferedWriter writer = new BufferedWriter(fileWriter);
 			
-			for (int index=0; index<list.size(); index++) {
+			for (int index = 0; index < list.size(); index++) {
 				writer.write(list.get(index) + "\n");
 			}
 			
@@ -411,7 +419,7 @@ public class TextBuddyHelper {
 			if (!list.isEmpty()) {
 				System.out.println("All related content: ");
 				
-				for (int index=0; index<list.size(); index++) {
+				for (int index = 0; index < list.size(); index++) {
 					
 					System.out.println((index+1) + ". " + list.get(index));
 				}
@@ -430,7 +438,7 @@ public class TextBuddyHelper {
 				
 				System.out.println("Results: ");
 				
-				for (int index=0; index<list.size(); index++) {
+				for (int index = 0; index < list.size(); index++) {
 					
 					System.out.println((secondList.indexOf(list.get(index))+1) + ". " + list.get(index));
 				}
