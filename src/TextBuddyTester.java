@@ -29,6 +29,11 @@ public class TextBuddyTester {
 		
 		TextBuddyHelper testInstance = new TextBuddyHelper ("mytestfile.txt", true);
 		
+		assertEquals("Added: " + ITEM1 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM1));
+		assertEquals("Added: " + ITEM2 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM2));
+		assertEquals("Added: " + ITEM3 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM3));
+		assertEquals("Added: " + ITEM4 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM4));
+		
 	}
 
 	@Test 
