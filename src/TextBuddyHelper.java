@@ -144,7 +144,7 @@ public class TextBuddyHelper {
 			
 			switch (command.toLowerCase()) {
 			
-				case("add"):
+				case ("add") :
 					if (sc.hasNext()) {
 						
 						String toAdd = sc.nextLine();
@@ -155,14 +155,14 @@ public class TextBuddyHelper {
 					}
 					break;
 				
-				case("display"):
+				case ("display") :
 					if (!canDisplayText()) {
 						
 						System.out.println(GEN_ERROR);
 					}
 					break;
 				
-				case("delete"):
+				case ("delete") :
 					if (sc.hasNextInt()) {
 						
 						int delLineNum = sc.nextInt();
@@ -174,18 +174,18 @@ public class TextBuddyHelper {
 					}
 					break;
 				
-				case("clear"):
+				case ("clear") :
 					if (!canClearText()) {
 						
 						System.out.println(GEN_ERROR);
 					}
 					break;
 				
-				case("exit"):
+				case ("exit") :
 					exit = true;
 					break;
 					
-				case("sort"):
+				case ("sort") :
 					if (!canSortText()) {
 						
 						System.out.println(GEN_ERROR);
@@ -193,7 +193,7 @@ public class TextBuddyHelper {
 					
 					break;
 				
-				case("search"):
+				case ("search") :
 					
 					String searchItem = sc.nextLine();
 					
@@ -204,7 +204,7 @@ public class TextBuddyHelper {
 					
 					break;
 				
-				default:
+				default :
 					System.out.println("Unknown command. Please re-enter.");
 					System.out.println("Available Commands: Add, Display, Delete, Clear, Exit");
 					sc.nextLine();
