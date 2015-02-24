@@ -119,5 +119,17 @@ public class TextBuddyTester {
 		
 		assertEquals("Unknown command. Please re-enter. " + "\n" + "Available Commands: Add, Display, Delete, Clear, Exit" + ". \n", testInstance.determineAndExecuteCommand("lalala", null));
 	}
+
+	@Test
+	//Test for Search.
+	public void test9() {
 		
+		assertEquals("Added: " + ITEM1 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM1));
+		assertEquals("Added: " + ITEM2 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM2));
+		assertEquals("Added: " + ITEM3 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM3));
+		assertEquals("Added: " + ITEM4 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM4));
+		
+		assertEquals("Results: " + "\n1. " + ITEM1 + "\n2. " + ITEM2 + "\n3. " + ITEM3 + "\n", testInstance.determineAndExecuteCommand(SEARCH_COMMAND, "R"));
+		
+	}
 }
