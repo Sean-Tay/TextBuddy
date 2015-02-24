@@ -36,6 +36,8 @@ public class TextBuddyHelper {
 		file = new File(fileName);
 		fileContents = new ArrayList<String>();
 		
+		fileContents = fillList(fileContents);
+		
 	}
 	
 	public static void startUp() {
@@ -56,16 +58,12 @@ public class TextBuddyHelper {
 	private static void checkFileExists() {
 		
 		/**
-		 * Checks if the file exists. If file exists, read in contents of file and store in fileContents list. Else, print not found message, and leave fileContents to be empty. 
+		 * Checks if the file exists. If file does not exist, print file creation message. 
 		 */
 		
 		if (!file.exists()) {
 			
 			System.out.println(file.toString() + " does not exist in root directory: " + filePath + ". Creating the file now.");
-		}
-		else {
-			
-			fileContents = fillList(fileContents);
 		}
 	}
 	
@@ -148,12 +146,19 @@ public class TextBuddyHelper {
 		while (!exit) {	
 			
 			System.out.print("command: ");
+			
 			String command = sc.next();
+			String trailingContent = sc.nextLine();
+			
+			if (!trailingContent.isEmpty()) {
+				
+				trailingContent = trailingContent.substring(1, trailingContent.length());
+			}
 			
 			switch (command.toLowerCase()) {
 			
 				case ("add") :
-					executeAddCommand(sc);
+					executeAddCommand(trailingContent);
 					break;
 				
 				case ("display") :			
@@ -161,7 +166,7 @@ public class TextBuddyHelper {
 					break;
 				
 				case ("delete") :				
-					executeDeleteCommand(sc);
+					executeDeleteCommand(trailingContent);
 					break;
 				
 				case ("clear") :
@@ -177,13 +182,12 @@ public class TextBuddyHelper {
 					break;
 				
 				case ("search") :
-					executeSearchCommand(sc);					
+					executeSearchCommand(trailingContent);					
 					break;
 				
 				default :
 					System.out.println("Unknown command. Please re-enter.");
 					System.out.println("Available Commands: Add, Display, Delete, Clear, Exit");
-					sc.nextLine();
 					break;
 			}
 			
@@ -223,12 +227,15 @@ public class TextBuddyHelper {
 
 	//executeAddCommand()
 	
-	public static void executeAddCommand(Scanner sc) {
-		if (sc.hasNext()) {
+	public static void executeAddCommand(String trailingContent) {
+		
+		/**
+		 *  Function to be called when executing Add command
+		 */
+		
+		if (checkValidString(trailingContent)) {
 			
-			String toAdd = sc.nextLine();
-			
-			if (!canAddText(toAdd)) {
+			if (!canAddText(trailingContent)) {
 				System.out.println(GEN_ERROR);
 			}
 		}
@@ -242,7 +249,6 @@ public class TextBuddyHelper {
 		
 		if (checkValidString(toAdd)) {
 			
-			toAdd = toAdd.substring(1, toAdd.length());
 			fileContents.add(toAdd);
 			System.out.println("Added: " + toAdd);
 			return true;
@@ -255,6 +261,11 @@ public class TextBuddyHelper {
 	//executeDisplayCommand()
 	
 	public static void executeDisplayCommand() {
+		
+		/**
+		 * Function to be called when executing Display command
+		 */
+		
 		if (!canDisplayText()) {
 			
 			System.out.println(GEN_ERROR);
@@ -273,15 +284,26 @@ public class TextBuddyHelper {
 	
 	//executeDeleteCommand()
 	
-	public static void executeDeleteCommand(Scanner sc) {
-		if (sc.hasNextInt()) {
+	public static void executeDeleteCommand(String trailingContent) {
+		
+		/**
+		 * Function to be called when executing Delete Command
+		 * Assumes user enters a Line Number
+		 */
+		
+		try {
 			
-			int delLineNum = sc.nextInt();
-			
+			int delLineNum = Integer.parseInt(trailingContent);
+		
 			if (!canDeleteText(delLineNum)) {
 				
 				System.out.println(GEN_ERROR);
 			}
+			
+		} catch (NumberFormatException e) {
+			
+			System.out.println("Please only input a natural number in the range: 1 to " + fileContents.size() + ".");
+			
 		}
 	}
 	
@@ -293,7 +315,6 @@ public class TextBuddyHelper {
 		 */
 		
 		try {
-			
 			
 			String removedLine = fileContents.remove(lineNum - 1);
 			System.out.println("Deleted: " + removedLine);
@@ -308,6 +329,11 @@ public class TextBuddyHelper {
 	//executeClearCommand()
 	
 	public static void executeClearCommand() {
+		
+		/**
+		 * Function to be called when executing the Clear command.
+		 */
+		
 		if (!canClearText()) {
 			
 			System.out.println(GEN_ERROR);
@@ -328,6 +354,11 @@ public class TextBuddyHelper {
 	//executeSortCommand()
 	
 	public static void executeSortCommand() {
+		
+		/**
+		 * Function to be called when executing the Sort command.
+		 */
+		
 		if (!canSortText()) {
 			
 			System.out.println(GEN_ERROR);
@@ -347,8 +378,11 @@ public class TextBuddyHelper {
 
 	//executeSearchCommand()
 	
-	public static void executeSearchCommand(Scanner sc) {
-		String searchItem = sc.nextLine();
+	public static void executeSearchCommand(String searchItem) {
+		
+		/**
+		 * Function to be called when executing the Search command.
+		 */
 		
 		if (!canSearchText(searchItem)) {
 			
@@ -381,7 +415,6 @@ public class TextBuddyHelper {
 		 */
 		
 		List<String> results = new ArrayList<String>();
-		searchItem = searchItem .substring(1, searchItem.length());
 		
 		for (int i=0; i<fileContents.size(); i++) {
 			
