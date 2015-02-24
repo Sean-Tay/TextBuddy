@@ -132,4 +132,11 @@ public class TextBuddyTester {
 		assertEquals("Results: " + "\n1. " + ITEM1 + "\n2. " + ITEM2 + "\n3. " + ITEM3 + "\n", testInstance.determineAndExecuteCommand(SEARCH_COMMAND, "R"));
 		
 	}
+	
+	@Test
+	//Test for Search error messages
+	public void test10() {
+		
+		assertEquals("Please make sure your input contains at least one letter or number" + ". \n", testInstance.determineAndExecuteCommand(SEARCH_COMMAND, " "));
+	}
 }
