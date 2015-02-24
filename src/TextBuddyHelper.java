@@ -350,14 +350,19 @@ public class TextBuddyHelper {
 		/**
 		 * Function to be called when executing the Clear command. Returns a String as a completion message.
 		 */
-		
-		fileContents.clear();
-		
-		if (fileContents.isEmpty()) {
-			return "All content cleared. \n";
+		if (!fileContents.isEmpty()) {
+			
+			fileContents.clear();
+			
+			if (fileContents.isEmpty()) {
+				return "All content cleared. \n";
+			}
+			else {
+				return "Unable to clear content. \n";
+			}
 		}
 		else {
-			return "Unable to clear content. \n";
+			return "File is already empty. \n";
 		}
 	}
 	
