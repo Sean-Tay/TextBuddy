@@ -194,7 +194,7 @@ public class TextBuddyHelper {
 		sc.close();
 	}
 
-	public void determineAndExecuteCommand(String command,
+	public String determineAndExecuteCommand(String command,
 			String trailingContent) {
 		
 		/**
@@ -229,14 +229,15 @@ public class TextBuddyHelper {
 			
 			
 			default :
-				System.out.println("Unknown command. Please re-enter.");
-				System.out.println("Available Commands: Add, Display, Delete, Clear, Exit");
+				result = "Unknown command. Please re-enter. " + "\n" + "Available Commands: Add, Display, Delete, Clear, Exit" + ". \n";
 				break;
 		}
 		
 		if (!result.equals("")) {
 			System.out.print(result);
 		}
+		
+		return result;
 	}
 
 	private void writeList(List<String> list, File file){
