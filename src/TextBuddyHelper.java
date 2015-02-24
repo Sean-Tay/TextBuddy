@@ -155,7 +155,7 @@ public class TextBuddyHelper {
 				trailingContent = trailingContent.substring(1, trailingContent.length());
 			}
 			
-			boolean success = determineCommand(command, trailingContent);
+			boolean success = determineAndExecuteCommand(command, trailingContent);
 			
 			if (!success) {
 				
@@ -174,7 +174,7 @@ public class TextBuddyHelper {
 		sc.close();
 	}
 
-	public static boolean determineCommand(String command,
+	public static boolean determineAndExecuteCommand(String command,
 			String trailingContent) {
 		
 		/**
@@ -288,22 +288,26 @@ public class TextBuddyHelper {
 		
 		try {
 			
-			int delLineNum = Integer.parseInt(toDelete);
-		
-			String removedLine = fileContents.remove(delLineNum - 1);
-			System.out.println("Deleted: " + removedLine);
-			return true;
+			if (isValidString(toDelete)) {
+				
+				int delLineNum = Integer.parseInt(toDelete);
+			
+				String removedLine = fileContents.remove(delLineNum - 1);
+				System.out.println("Deleted: " + removedLine);
+				return true;
+			}
+			
 			
 		} catch (NumberFormatException e) {
 			
-			System.out.println("Please only input a natural number in the range: 1 to " + fileContents.size() + ".");
-			return false;
+			System.out.println("Please only input a natural number in the range: 1 to " + fileContents.size() + ".");		
 			
 		} catch (IndexOutOfBoundsException e) {
 			
 			System.out.println("Unable to remove non-existent line. Please input a number from: 1 to " + fileContents.size() + ".");
-			return false;
 		}
+		
+		return false;
 	}
 	
 	//executeClearCommand()
@@ -354,11 +358,7 @@ public class TextBuddyHelper {
 			obtainingSearchResults(searchItem);
 			return true;
 		}
-		else {
-
-			System.out.println("Please enter a non-empty search term.");
-			return false;
-		}
+		return false;
 	}
 
 	private static void obtainingSearchResults(String searchItem) {
@@ -386,15 +386,14 @@ public class TextBuddyHelper {
 		 * Check if given String is valid.
 		 */
 		
-		if (toCheck.isEmpty()) {
-			return false;
-		}
-		
-		if (toCheck.equals(" ")) {
+		if (toCheck.trim().isEmpty()) {
+			
+			System.out.println("Please make sure your input contains at least one letter or number."); 
 			return false;
 		}
 		
 		return true;
+		
 	}
 		
 	private static void printList(List<String> list, boolean defaultBehavior, List<String> secondList)
