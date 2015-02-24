@@ -29,17 +29,13 @@ public class TextBuddyTester {
 		
 		TextBuddyHelper testInstance = new TextBuddyHelper ("mytestfile.txt", true);
 		
-		assertTrue(testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM1));
-		assertTrue(testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM2));
-		assertTrue(testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM3));
-		assertTrue(testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM4));
 	}
 
 	@Test 
-	//Tests and sees if TextBuddy can display things.
+	//Tests the Display function.
 	public void testDisplay() {
-		
-		testInstance.determineAndExecuteCommand(DISPLAY_COMMAND, null);
-	}
 
+			
+	}
+		
 }

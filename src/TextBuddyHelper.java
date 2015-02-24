@@ -180,12 +180,7 @@ public class TextBuddyHelper {
 				trailingContent = trailingContent.substring(1, trailingContent.length());
 			}
 			
-			boolean isSuccessful = determineAndExecuteCommand(command, trailingContent);
-			
-			if (!isSuccessful) {
-				
-				System.out.println(GEN_ERROR_MSG);
-			}
+			determineAndExecuteCommand(command, trailingContent);
 			
 			writeList(fileContents, file);
 
@@ -199,7 +194,7 @@ public class TextBuddyHelper {
 		sc.close();
 	}
 
-	public boolean determineAndExecuteCommand(String command,
+	public void determineAndExecuteCommand(String command,
 			String trailingContent) {
 		
 		/**
@@ -209,28 +204,27 @@ public class TextBuddyHelper {
 		 * @param trailingContent: Any input entered after the command.
 		 */
 		
-		boolean isSuccessful = false;
+		String result = "";
 		
 		switch (command.toLowerCase()) {
 		
 			case ("add") :
-				isSuccessful = executeAddCommand(trailingContent);
+				result = executeAddCommand(trailingContent);
 				break;
 			
 			case ("display") :			
-				isSuccessful = executeDisplayCommand();
+				result = executeDisplayCommand();
 				break;
 			
 			case ("delete") :				
-				isSuccessful = executeDeleteCommand(trailingContent);
+				result = executeDeleteCommand(trailingContent);
 				break;
 			
 			case ("clear") :
-				isSuccessful = executeClearCommand();
+				result = executeClearCommand();
 				break;
 			
 			case ("exit") :
-				isSuccessful = true;
 				break;
 			
 			
@@ -240,7 +234,9 @@ public class TextBuddyHelper {
 				break;
 		}
 		
-		return isSuccessful;
+		if (!result.equals("")) {
+			System.out.print(result);
+		}
 	}
 
 	private void writeList(List<String> list, File file){
@@ -272,10 +268,10 @@ public class TextBuddyHelper {
 
 	//executeAddCommand()
 	
-	private boolean executeAddCommand(String toAdd) {
+	private String executeAddCommand(String toAdd) {
 		
 		/**
-		 * Appends a given line of text to fileContents
+		 * Appends a given line of text to fileContents. Returns a String to be printed for confirmation message.
 		 * 
 		 * @param toAdd: String to be added into fileContents.
 		 */
@@ -283,31 +279,31 @@ public class TextBuddyHelper {
 		if (isValidString(toAdd)) {
 			
 			fileContents.add(toAdd);
-			System.out.println("Added: " + toAdd);
-			return true;
+			return ("Added: " + toAdd) + ". \n";
+			
 		}
 		
-		return false;
+		return null;
 	}
 	
 	//executeDisplayCommand()
 	
-	private boolean executeDisplayCommand() {
+	private String executeDisplayCommand() {
 		
 		/**
-		 * Prints fileContents.
+		 * Returns a string containing fileContents. This String will then be printed.
 		 */
 		
-		printList(fileContents, true, null);
-		return true;
+		String returnVal = printList(fileContents, true, null);
+		return returnVal;
 	}
 	
 	//executeDeleteCommand()
 	
-	private boolean executeDeleteCommand(String toDelete) {
+	private String executeDeleteCommand(String toDelete) {
 		
 		/**
-		 * Function to be called when executing Delete Command. Returns a success boolean upon completion.
+		 * Function to be called when executing Delete Command. Returns a String as a confirmation message.
 		 * Assumes user enters a Line Number
 		 * Assumes user does not take into account that the starting index is 0 and not 1
 		 * 
@@ -321,43 +317,47 @@ public class TextBuddyHelper {
 				int delLineNum = Integer.parseInt(toDelete);
 			
 				String removedLine = fileContents.remove(delLineNum - 1);
-				System.out.println("Deleted: " + removedLine);
-				return true;
+				
+				return "Deleted: " + removedLine + ". \n";
 			}
 			
 			
 		} catch (NumberFormatException e) {
 			
-			System.out.println("Please only input a natural number in the range: 1 to " + fileContents.size() + ".");		
+			return "Please only input a natural number in the range: 1 to " + fileContents.size() + ". \n";		
 			
 		} catch (IndexOutOfBoundsException e) {
 			
 			if (!fileContents.isEmpty()) {
 				
-				System.out.println("Unable to remove non-existent line. Please input a number from: 1 to " + fileContents.size() + ".");
+				return "Unable to remove non-existent line. Please input a number from: 1 to " + fileContents.size() + ". \n";
 			}
 			else {
 				
-				System.out.println("File is already empty");
-				return true;
+				return "File is already empty. \n";
 			}
 				
 		}
 		
-		return false;
+		return null;
 	}
 	
 	//executeClearCommand()
 	
-	private boolean executeClearCommand() {
+	private String executeClearCommand() {
 		
 		/**
-		 * Function to be called when executing the Clear command. Returns a success boolean upon completion.
+		 * Function to be called when executing the Clear command. Returns a String as a completion message.
 		 */
 		
 		fileContents.clear();
-		System.out.println("All content cleared.");
-		return fileContents.isEmpty();
+		
+		if (fileContents.isEmpty()) {
+			return "All content cleared. \n";
+		}
+		else {
+			return "Unable to clear content. \n";
+		}
 	}
 	
 	//executeSortCommand()
@@ -388,16 +388,18 @@ public class TextBuddyHelper {
 		
 	}
 		
-	private void printList(List<String> list, boolean defaultBehavior, List<String> secondList) {
+	private String printList(List<String> list, boolean defaultBehavior, List<String> secondList) {
 		
 		/**
-		 * Given a list, prints all contents out, behavior changes according to second argument
+		 * Given a list, returns a String containing the list contents, behavior changes according to second argument
 		 * 
 		 * @param list: The List object to be printed.
-		 * @param defaultBehavior: Determines function behavior. If this is true, it will print accompanying indexes of each entry as per normal. 
-		 * 						   If this is false, it will print accompanying indexes of each entry in relation to their position in the second list.
+		 * @param defaultBehavior: Determines function behavior. If this is true, it will return each entry along with their accompanying indexes as per normal. 
+		 * 						   If this is false, it will return each entry along with their accompanying indexes in relation to their position in the second list.
 		 * @param secondList: See defaultBehavior.
 		 */
+		
+		String returnVal = "";
 		
 		if (defaultBehavior) {
 			
@@ -407,16 +409,16 @@ public class TextBuddyHelper {
 			
 			if (!list.isEmpty()) {
 				
-				System.out.println("All related content: ");
+				returnVal += "All related content: " + "\n";
 				
 				for (int index = 0; index < list.size(); index++) {
 					
-					System.out.println((index+1) + ". " + list.get(index));
+					returnVal += (index+1) + ". " + list.get(index) + "\n";
 				}
 			}
 			else {
 				
-				System.out.println("No content to display.");
+				returnVal = "No content to display. \n";
 			}
 		}
 		else {
@@ -426,20 +428,22 @@ public class TextBuddyHelper {
 			 */
 			if (secondList != null) {
 				
-				System.out.println("Results: ");
+				returnVal += "Results: " + "\n";
 				
 				for (int index = 0; index < list.size(); index++) {
 					
-					System.out.println((secondList.indexOf(list.get(index))+1) + ". " + list.get(index));
+					returnVal += (secondList.indexOf(list.get(index))+1) + ". " + list.get(index) + "\n";
 				}
 			
 			}
 			else {
 				
-				System.out.println("Null list given.");
+				returnVal = "Null list given. \n";
 			}
 			
 		}
+		
+		return returnVal;
 			
 	}
 	
