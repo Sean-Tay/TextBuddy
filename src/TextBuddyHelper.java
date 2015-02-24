@@ -153,63 +153,31 @@ public class TextBuddyHelper {
 			switch (command.toLowerCase()) {
 			
 				case ("add") :
-					if (sc.hasNext()) {
-						
-						String toAdd = sc.nextLine();
-						
-						if (!canAddText(toAdd)) {
-							System.out.println(GEN_ERROR);
-						}
-					}
+					executeAddCommand(sc);
 					break;
 				
-				case ("display") :
-					if (!canDisplayText()) {
-						
-						System.out.println(GEN_ERROR);
-					}
+				case ("display") :			
+					executeDisplayCommand();
 					break;
 				
-				case ("delete") :
-					if (sc.hasNextInt()) {
-						
-						int delLineNum = sc.nextInt();
-						
-						if (!canDeleteText(delLineNum)) {
-							
-							System.out.println(GEN_ERROR);
-						}
-					}
+				case ("delete") :				
+					executeDeleteCommand(sc);
 					break;
 				
 				case ("clear") :
-					if (!canClearText()) {
-						
-						System.out.println(GEN_ERROR);
-					}
+					executeClearCommand();
 					break;
 				
 				case ("exit") :
 					exit = true;
 					break;
 					
-				case ("sort") :
-					if (!canSortText()) {
-						
-						System.out.println(GEN_ERROR);
-					}
-					
+				case ("sort") :			
+					executeSortCommand();
 					break;
 				
 				case ("search") :
-					
-					String searchItem = sc.nextLine();
-					
-					if (!canSearchText(searchItem)) {
-						
-						System.out.println(GEN_ERROR);
-					}
-					
+					executeSearchCommand(sc);					
 					break;
 				
 				default :
@@ -226,6 +194,8 @@ public class TextBuddyHelper {
 		sc.close();
 		
 	}
+
+
 
 	private static void writeList(List<String> list){
 		
@@ -251,7 +221,18 @@ public class TextBuddyHelper {
 		}
 	}
 
-	//canAddText()
+	//executeAddCommand()
+	
+	public static void executeAddCommand(Scanner sc) {
+		if (sc.hasNext()) {
+			
+			String toAdd = sc.nextLine();
+			
+			if (!canAddText(toAdd)) {
+				System.out.println(GEN_ERROR);
+			}
+		}
+	}
 	
 	private static boolean canAddText(String toAdd) {
 		
@@ -271,7 +252,14 @@ public class TextBuddyHelper {
 		
 	}
 	
-	//canDisplayText()
+	//executeDisplayCommand()
+	
+	public static void executeDisplayCommand() {
+		if (!canDisplayText()) {
+			
+			System.out.println(GEN_ERROR);
+		}
+	}
 	
 	private static boolean canDisplayText() {
 		
@@ -283,7 +271,19 @@ public class TextBuddyHelper {
 		return true;
 	}
 	
-	//canDeleteText()
+	//executeDeleteCommand()
+	
+	public static void executeDeleteCommand(Scanner sc) {
+		if (sc.hasNextInt()) {
+			
+			int delLineNum = sc.nextInt();
+			
+			if (!canDeleteText(delLineNum)) {
+				
+				System.out.println(GEN_ERROR);
+			}
+		}
+	}
 	
 	private static boolean canDeleteText(int lineNum) {
 		
@@ -305,7 +305,14 @@ public class TextBuddyHelper {
 		return true;
 	}
 
-	//canClearText()
+	//executeClearCommand()
+	
+	public static void executeClearCommand() {
+		if (!canClearText()) {
+			
+			System.out.println(GEN_ERROR);
+		}
+	}
 	
 	private static boolean canClearText() {
 		
@@ -318,7 +325,14 @@ public class TextBuddyHelper {
 		return fileContents.isEmpty();
 	}
 	
-	//canSortText()
+	//executeSortCommand()
+	
+	public static void executeSortCommand() {
+		if (!canSortText()) {
+			
+			System.out.println(GEN_ERROR);
+		}
+	}
 	
 	private static boolean canSortText() {
 		
@@ -331,7 +345,16 @@ public class TextBuddyHelper {
 		return true;
 	}
 
-	//canSearchText()
+	//executeSearchCommand()
+	
+	public static void executeSearchCommand(Scanner sc) {
+		String searchItem = sc.nextLine();
+		
+		if (!canSearchText(searchItem)) {
+			
+			System.out.println(GEN_ERROR);
+		}
+	}
 	
 	private static boolean canSearchText(String searchItem) {
 		
