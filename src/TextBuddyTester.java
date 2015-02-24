@@ -139,4 +139,11 @@ public class TextBuddyTester {
 		
 		assertEquals("Please make sure your input contains at least one letter or number" + ". \n", testInstance.determineAndExecuteCommand(SEARCH_COMMAND, " "));
 	}
+	
+	@Test
+	//Test for Sort.
+	public void test11() {
+		
+		assertEquals("Items sorted. \n", testInstance.determineAndExecuteCommand(SORT_COMMAND, null));
+	}
 }
