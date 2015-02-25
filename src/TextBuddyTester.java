@@ -5,8 +5,6 @@ import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 import org.junit.Test;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-
 public class TextBuddyTester {
 	
 	static TextBuddyHelper testInstance = new TextBuddyHelper ("mytestfile.txt", true);
@@ -34,7 +32,7 @@ public class TextBuddyTester {
 	
 	@Test
 	//Tests the Add function.
-	public void test001() {
+	public void testAdd() {
 		
 		assertEquals("Added: " + ITEM1 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM1));
 		assertEquals("Added: " + ITEM2 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM2));
@@ -45,14 +43,14 @@ public class TextBuddyTester {
 
 	@Test 
 	//Tests the Display function.
-	public void test002() {
+	public void testDisplay() {
 
 		assertEquals("All related content: " + "\n1. " + ITEM1 + "\n2. " + ITEM2 + "\n3. " + ITEM3 +"\n4. " + ITEM4 + "\n", testInstance.determineAndExecuteCommand(DISPLAY_COMMAND, null));
 	}
 	
 	@Test
 	//Tests the Delete function in a variety of settings (first line in file, middle line in file, last line in file, last item in the file)
-	public void test003() {
+	public void testDeleteNormal() {
 		
 		assertEquals("Deleted: " + ITEM1 + ". \n", testInstance.determineAndExecuteCommand(DELETE_COMMAND, "1"));
 		assertEquals("Deleted: " + ITEM3 + ". \n", testInstance.determineAndExecuteCommand(DELETE_COMMAND, "2"));
@@ -74,7 +72,7 @@ public class TextBuddyTester {
 	
 	@Test
 	//Tests the Clear function.
-	public void test004() {
+	public void testClear() {
 		
 		assertEquals("All content cleared. \n", testInstance.determineAndExecuteCommand(CLEAR_COMMAND, null));
 		
@@ -82,7 +80,7 @@ public class TextBuddyTester {
 	
 	@Test
 	//Tests the Clear function's error message.
-	public void test005() {
+	public void testClearError() {
 		
 		assertEquals("File is already empty. \n", testInstance.determineAndExecuteCommand(CLEAR_COMMAND, null));
 		
@@ -90,14 +88,14 @@ public class TextBuddyTester {
 	
 	@Test
 	//Tests the Display function's error message.
-	public void test006() {
+	public void testDisplayError() {
 		
 		assertEquals("No content to display. \n", testInstance.determineAndExecuteCommand(DISPLAY_COMMAND, null));
 	}
 	
 	@Test
 	//Test the Delete function's error messages.
-	public void test007() {
+	public void testDeleteError() {
 		
 		assertEquals("File is already empty. \n", testInstance.determineAndExecuteCommand(DELETE_COMMAND, "5"));
 		
@@ -115,14 +113,14 @@ public class TextBuddyTester {
 	
 	@Test
 	//Test for unexpected Commands.
-	public void test008() {
+	public void testUnexpectedCommands() {
 		
 		assertEquals("Unknown command. Please re-enter. " + "\n" + "Available Commands: Add, Display, Delete, Clear, Exit" + ". \n", testInstance.determineAndExecuteCommand("lalala", null));
 	}
 
 	@Test
 	//Test for Search.
-	public void test009() {
+	public void testSearchNormal() {
 		
 		assertEquals("Added: " + ITEM1 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM1));
 		assertEquals("Added: " + ITEM2 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM2));
@@ -135,14 +133,14 @@ public class TextBuddyTester {
 	
 	@Test
 	//Test for Search error messages
-	public void test010() {
+	public void testSearchError() {
 		
 		assertEquals("Please make sure your input contains at least one letter or number" + ". \n", testInstance.determineAndExecuteCommand(SEARCH_COMMAND, " "));
 	}
 	
 	@Test
 	//Test for Sort.
-	public void test011() {
+	public void testSort() {
 		
 		assertEquals("Items sorted. \n", testInstance.determineAndExecuteCommand(SORT_COMMAND, null));
 		assertEquals("All related content: " + "\n1. " + ITEM2 + "\n2. " + ITEM3 + "\n3. " + ITEM1 +"\n4. " + ITEM4 + "\n", testInstance.determineAndExecuteCommand(DISPLAY_COMMAND, null));
