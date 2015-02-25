@@ -1,6 +1,6 @@
 /*
  *  TextBuddyHelper [Build Version 1.0]
- *  Tay Siang Meng Sean
+ *  Tay Siang Meng Sean 
  */
 
 //@author A0121409R
@@ -28,17 +28,16 @@ public class TextBuddyHelper {
 	private File file;
 	private List<String> fileContents;
 	
-	//First-Tier Operations
+	//First-Tier Functions
 	
+	/**
+	 * Constructor to initialize elements.
+	 * 
+	 * @param fileName: The name of the file to be loaded/created.
+	 * @param toCleanLoad: If set to true, then a new file will be created, and any files of the same name will be overridden.
+	 * 					   If set to false, then if there are files of the same name, that will be loaded instead.
+	 */
 	public TextBuddyHelper(String fileName, boolean toCleanLoad) {
-		
-		/**
-		 * Constructor to initialize elements.
-		 * 
-		 * @param fileName: The name of the file to be loaded/created.
-		 * @param toCleanLoad: If set to true, then a new file will be created, and any files of the same name will be overridden.
-		 * 					   If set to false, then if there are files of the same name, that will be loaded instead.
-		 */
 		
 		this.file = new File(fileName);
 		this.fileContents = new ArrayList<String>();
@@ -48,15 +47,12 @@ public class TextBuddyHelper {
 		createTheFile(toCleanLoad);
 		
 		fileContents = fillList(fileContents, file);
-		
-		
 	}
-		
+	
+	/**
+	 * Checks if the file exists. If file does not exist, print file creation message. 
+	 */
 	private void checkFileExists() {
-		
-		/**
-		 * Checks if the file exists. If file does not exist, print file creation message. 
-		 */
 		
 		if (!file.exists()) {
 			
@@ -64,15 +60,14 @@ public class TextBuddyHelper {
 		}
 	}
 	
+	/**
+	 * Creates a new file based on given Command Line Argument.
+	 * 
+	 * @param toCleanLoad: If set to true, function will create and overwrite any file with the same name, starting clean.
+	 * 					   If set to false, function will instead load the file, and not overwrite.
+	 */
 	private void createTheFile(boolean toCleanLoad) { 
-
-		/**
-		 * Creates a new file based on given Command Line Argument.
-		 * 
-		 * @param toCleanLoad: If set to true, function will create and overwrite any file with the same name, starting clean.
-		 * 					   If set to false, function will instead load the file, and not overwrite.
-		 */
-		
+	
 		try {	
 			
 			FileWriter fileWriter = new FileWriter(file, !toCleanLoad);
@@ -86,14 +81,13 @@ public class TextBuddyHelper {
 		}
 	}
 	
+	/**
+	 * Fills a given list with given file contents, and returns the list. If not given a list, creates a new list on the spot.
+	 * 
+	 * @param list: The List<String> object to be filled with file contents.
+	 * @param file: the File object to be used to fill up list with its contents.
+	 */
 	private List<String> fillList(List<String> list, File file) {
-		
-		/**
-		 * Fills a given list with given file contents, and returns the list.
-		 * 
-		 * @param list: The List<String> object to be filled with file contents.
-		 * @param file: the File object to be used to fill up list with its contents.
-		 */
 		
 		try {
 			
@@ -137,35 +131,32 @@ public class TextBuddyHelper {
 		return list;
 	}
 	
+	/**
+	 * Called by driver class when starting up.
+	 */
 	public void startUp() {
 		
-		/**
-		 * Called by driver class when starting up. This is the regular startup route.
-		 * 
-		 */
 		printWelcomeMessage();
 		
 		inputHandler();
 	}
 
+	/**
+	 * Prints the message that is shown upon starting the application.
+	 */
 	private void printWelcomeMessage() { 
-
-		/**
-		 * Prints the message that is shown upon starting the application.
-		 */
 		
 		System.out.print("Welcome to TextBuddy. ");
 		System.out.print("\"" + file.toString() + "\" ");
 		System.out.println("is ready for use.");
 	}
 
-	//Second-Tier Operations
+	//Second-Tier Functions
 	
+	/**
+	 * Function to handle input.
+	 */
 	private void inputHandler() { 
-
-		/**
-		 * Function to handle input.
-		 */
 		
 		boolean toContinue = true;
 		Scanner sc = new Scanner(System.in);
@@ -184,7 +175,7 @@ public class TextBuddyHelper {
 				
 			determineAndExecuteCommand(command, trailingContent);
 
-			if (command.equals("exit")) {
+			if (command == null || command.equals("exit")) {
 				
 				toContinue = false;
 			}
@@ -193,16 +184,14 @@ public class TextBuddyHelper {
 		
 		sc.close();
 	}
-
-	public String determineAndExecuteCommand (String command,
-			String trailingContent) {
-		
-		/**
-		 * The function that determines the command-type.
-		 * 
-		 * @param command: The type of command to be executed.
-		 * @param trailingContent: Any input entered after the command.
-		 */
+	
+	/**
+	 * The function that determines the command-type.
+	 * 
+	 * @param command: The type of command to be executed.
+	 * @param trailingContent: Any input entered after the command.
+	 */
+	public String determineAndExecuteCommand (String command, String trailingContent) {
 		
 		if (command == null) {
 			
@@ -213,30 +202,30 @@ public class TextBuddyHelper {
 		
 		switch (command.toLowerCase()) {
 		
-			case ("add") :
+			case "add" :
 				result = executeAddCommand(trailingContent);
 				break;
 			
-			case ("display") :			
+			case "display" :			
 				result = executeDisplayCommand();
 				break;
 			
-			case ("delete") :				
+			case "delete" :				
 				result = executeDeleteCommand(trailingContent);
 				break;
 			
-			case ("clear") :
+			case "clear" :
 				result = executeClearCommand();
 				break;
 			
-			case ("exit") :
+			case "exit" :
 				break;
 			
-			case ("search") :
+			case "search" :
 				result = executeSearchCommand(trailingContent);					
 				break;	
 			
-			case ("sort") :			
+			case "sort" :			
 				result = executeSortCommand();
 				break;
 			
@@ -254,14 +243,13 @@ public class TextBuddyHelper {
 		return result;
 	}
 	
+	/**
+	 * Writes a given list of Strings to a file
+	 * 
+	 * @param list: The List object that is the reference for the content to be written into file.
+	 * @param file: The File object for the contents of list to be written to.
+	 */
 	private void writeList(List<String> list, File file){
-		
-		/**
-		 * Writes a given list of Strings to a file
-		 * 
-		 * @param list: The List object that is the reference for the content to be written into file.
-		 * @param file: The File object for the contents of list to be written to.
-		 */
 		
 		try {
 			FileWriter fileWriter = new FileWriter(file, false);
@@ -279,19 +267,17 @@ public class TextBuddyHelper {
 		} catch (IOException e) {
 			System.out.println("Error with writing content to file.");
 		}
-	}
+	}	
+	
+	//add
 	
 
-	//executeAddCommand()
-	
+	/**
+	 * Appends a given line of text to fileContents. Returns a String to be printed as a confirmation message for the user.
+	 * 
+	 * @param toAdd: String to be added into fileContents.
+	 */
 	private String executeAddCommand(String toAdd) {
-		
-		/**
-		 * Appends a given line of text to fileContents. Returns a String to be printed as a confirmation message for the user.
-		 * 
-		 * @param toAdd: String to be added into fileContents.
-		 */
-		
 
 		if (isValidString(toAdd).equals(SUCCESS_MSG)) {
 			
@@ -301,32 +287,29 @@ public class TextBuddyHelper {
 		}
 		
 		return isValidString(toAdd);
-	}
+	}		
+	
+	//display
 	
 	
-	//executeDisplayCommand()
-	
+	/**
+	 * Returns a string containing fileContents. Returns a String to be printed as a results message for the user.
+	 */
 	private String executeDisplayCommand() {
-		
-		/**
-		 * Returns a string containing fileContents. Returns a String to be printed as a results message for the user.
-		 */
 
 		return printList(fileContents, true, null);
-	}
+	}		
 	
+	//delete
 	
-	//executeDeleteCommand()
-	
+	/**
+	 * Function to be called when executing Delete Command. Returns a String to be printed as a confirmation message for the user.
+	 * Assumes user enters a Line Number
+	 * Assumes user does not take into account that the starting index is 0 and not 1
+	 * 
+	 * @param toDelete: A string containing the line number that is to be deleted.
+	 */	
 	private String executeDeleteCommand(String toDelete) {
-		
-		/**
-		 * Function to be called when executing Delete Command. Returns a String to be printed as a confirmation message for the user.
-		 * Assumes user enters a Line Number
-		 * Assumes user does not take into account that the starting index is 0 and not 1
-		 * 
-		 * @param toDelete: A string containing the line number that is to be deleted.
-		 */
 		
 		try {
 			
@@ -360,16 +343,15 @@ public class TextBuddyHelper {
 			}
 				
 		}	
-	}
+	}		
+	
+	//clear
 	
 	
-	//executeClearCommand()
-	
+	/**
+	 * Function to be called when executing the Clear command. Returns a String to be printed as a confirmation message for the user.
+	 */
 	private String executeClearCommand() {
-		
-		/**
-		 * Function to be called when executing the Clear command. Returns a String to be printed as a confirmation message for the user.
-		 */
 		
 		if (!fileContents.isEmpty()) {
 			
@@ -391,29 +373,27 @@ public class TextBuddyHelper {
 		}
 	}
 	
+	//sort
 	
-	//executeSortCommand()
 	
+    /**
+     * Function to be called when executing the Sort command. Returns a String to be printed as a confirmation message for the user.
+     */	
 	private String executeSortCommand() {
-	
-	    /**
-	     * Function to be called when executing the Sort command. Returns a String to be printed as a confirmation message for the user.
-	     */
-		
+
 	    Collections.sort(fileContents);
 	    return ("Items sorted. \n");
-	}
+	}	
 	
-
-	//executeSearchCommand()
+	//search
 	
+	
+    /**
+     * Code that actually handles the search function. Returns a String to be printed as a results message for the user.
+     * 
+     * @param searchItem: String object containing string to be searched within fileContents.
+     */
 	private String executeSearchCommand(String searchTerm) {
-		
-	      /**
-	       * Code that actually handles the search function. Returns a String to be printed as a results message for the user.
-	       * 
-	       * @param searchItem: String object containing string to be searched within fileContents.
-	       */
 			
 			if (isValidString(searchTerm).equals(SUCCESS_MSG)) {
 				
@@ -435,24 +415,25 @@ public class TextBuddyHelper {
 				
 			}
 		
-	}
+	}	
+	
+	//Third-Tier Functions
+	
+	//isValidString()
 	
 	
-	//Additional Functions
-	
+	/**
+	 * Check if given String is valid.
+	 * 
+	 * @throws NullPointerException	: If String given is not instantiated.
+	 * 
+	 * @param toCheck				: The String object to be checked.
+	 */
 	private String isValidString(String toCheck) throws NullPointerException {
-		
-		/**
-		 * Check if given String is valid.
-		 * 
-		 * @throws NullPointerException	: If String given is not instantiated.
-		 * 
-		 * @param toCheck				: The String object to be checked.
-		 */
 		
 		if (toCheck == null) {
 			
-			throw new NullPointerException("String to be validified is not instantiated.");
+			throw new NullPointerException(" 'toCheck' is null.");
 			
 		} else if (toCheck.trim().isEmpty()) {
 			
@@ -463,29 +444,20 @@ public class TextBuddyHelper {
 		
 	}
 	
+	//printList()
+	
+	/**
+	 * Given a list, returns a String containing the list contents, behavior changes according to second argument.
+	 * 
+	 * @param list					: The List object to be printed.
+	 * @param useDefaultBehavior	: Determines function behavior. If this is true, it will return each entry along with their accompanying indexes as per normal. 
+	 * 						   		  If this is false, it will return each entry along with their accompanying indexes in relation to their position in the second list.
+	 * @param secondList	 		: See defaultBehavior.
+	 */	
 		
-	private String printList(List<String> list, boolean useDefaultBehavior, List<String> secondList) throws NullPointerException {
+	private String printList(List<String> list, boolean useDefaultBehavior, List<String> secondList) {
 		
-		/**
-		 * Given a list, returns a String containing the list contents, behavior changes according to second argument.
-		 * 
-		 * @throws NullPointerException	: If either the first list is null, or if both defaultBehavior is false and secondList is null.
-		 * 
-		 * @param list					: The List object to be printed.
-		 * @param useDefaultBehavior	: Determines function behavior. If this is true, it will return each entry along with their accompanying indexes as per normal. 
-		 * 						   		  If this is false, it will return each entry along with their accompanying indexes in relation to their position in the second list.
-		 * @param secondList	 		: See defaultBehavior.
-		 */
-		
-		if (list == null) {
-			
-			throw new NullPointerException(" 'list' not instantiated.");
-		}
-		
-		if (useDefaultBehavior == false && secondList == null) {
-			
-			throw new NullPointerException(" 'secondList' not instantiated.");
-		}
+		checkLists(list, useDefaultBehavior, secondList);
 		
 		String returnVal = "";
 			
@@ -493,17 +465,7 @@ public class TextBuddyHelper {
 			
 			returnVal += "All related content: " + "\n";
 			
-			for (int index = 0; index < list.size(); index++) {
-				
-				if (useDefaultBehavior) {
-					
-					returnVal += (index+1) + ". " + list.get(index) + "\n";
-					
-				} else {
-					
-					returnVal += (secondList.indexOf(list.get(index))+1) + ". " + list.get(index) + "\n";
-				}
-			}
+			returnVal = printListWriteString(list, useDefaultBehavior, secondList, returnVal);
 			
 		} else {
 			
@@ -512,6 +474,45 @@ public class TextBuddyHelper {
 		
 		return returnVal;
 			
+	}
+	
+	/**
+	 * Checks for printList().
+	 * 
+	 * @throws NullPointerException	: If either the first list is null, or if both defaultBehavior is false and secondList is null.
+	 */
+	private void checkLists(List<String> list, boolean useDefaultBehavior, List<String> secondList) throws NullPointerException {
+		
+		if (list == null) {
+			
+			throw new NullPointerException(" 'list' is null.");
+		}
+		
+		if (useDefaultBehavior == false && secondList == null) {
+			
+			throw new NullPointerException(" 'secondList' is null.");
+		}
+	}
+	
+	/**
+	 * The printList() code that actually appends list contents to the given String.
+	 */
+	
+	private String printListWriteString(List<String> list, boolean useDefaultBehavior, List<String> secondList, String returnVal) {
+		
+		for (int index = 0; index < list.size(); index++) {
+			
+			if (useDefaultBehavior) {
+				
+				returnVal += (index+1) + ". " + list.get(index) + "\n";
+				
+			} else {
+				
+				returnVal += (secondList.indexOf(list.get(index))+1) + ". " + list.get(index) + "\n";
+			}
+		}
+		
+		return returnVal;
 	}
 }
 
