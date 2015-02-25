@@ -1,5 +1,5 @@
 /*
- *  TextBuddy [Build Version 0.0]
+ *  TextBuddy [Build Version 1.0]
  *  Tay Siang Meng Sean
  *  
  *  This program allows the user to edit a text file via Command Line. 

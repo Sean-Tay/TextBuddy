@@ -1,13 +1,12 @@
 import static org.junit.Assert.*;
 
+import org.junit.After;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.runners.MethodSorters;
 import org.junit.Test;
 
 public class TextBuddyTester {
 	
-	static TextBuddyHelper testInstance = new TextBuddyHelper ("mytestfile.txt", true);
+	static TextBuddyHelper testInstance = null;
 	
 	static String ADD_COMMAND = "add";
 	static String DISPLAY_COMMAND = "display";
@@ -25,110 +24,134 @@ public class TextBuddyTester {
 	static String ITEM7 = "Crimson Jazz";
 	
 	@Before
-	//Adds a single empty line first
+	//Start each test with a fresh file. Also tests the add function.
 	public void setUp() {
-		System.out.println();
-	}
-	
-	@Test
-	//Tests the Add function.
-	public void testAdd() {
+
+		testInstance = new TextBuddyHelper ("mytestfile.txt", true);
 		
 		assertEquals("Added: " + ITEM1 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM1));
 		assertEquals("Added: " + ITEM2 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM2));
 		assertEquals("Added: " + ITEM3 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM3));
 		assertEquals("Added: " + ITEM4 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM4));
-		
 	}
-
-	@Test 
-	//Tests the Display function.
-	public void testDisplay() {
-
+	
+	@Test
+	//Test the display function normally.
+	public void testDisplayNormal() {
+		
 		assertEquals("All related content: " + "\n1. " + ITEM1 + "\n2. " + ITEM2 + "\n3. " + ITEM3 +"\n4. " + ITEM4 + "\n", testInstance.determineAndExecuteCommand(DISPLAY_COMMAND, null));
 	}
 	
 	@Test
-	//Tests the Delete function in a variety of settings (first line in file, middle line in file, last line in file, last item in the file)
-	public void testDeleteNormal() {
+	//Test the delete function's ability to delete the first line in a file with more than one line. This then proceeds to check if it displays correctly.
+	public void testDeleteFirstNormal() {
 		
 		assertEquals("Deleted: " + ITEM1 + ". \n", testInstance.determineAndExecuteCommand(DELETE_COMMAND, "1"));
-		assertEquals("Deleted: " + ITEM3 + ". \n", testInstance.determineAndExecuteCommand(DELETE_COMMAND, "2"));
-		assertEquals("Deleted: " + ITEM4 + ". \n", testInstance.determineAndExecuteCommand(DELETE_COMMAND, "2"));
-		
-		
-		assertEquals("All related content: " + "\n1. " + ITEM2 + "\n", testInstance.determineAndExecuteCommand(DISPLAY_COMMAND, null));
-		
-		
-		assertEquals("Deleted: " + ITEM2 + ". \n", testInstance.determineAndExecuteCommand(DELETE_COMMAND, "1"));
-		
-		
-		assertEquals("Added: " + ITEM1 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM1));
-		assertEquals("Added: " + ITEM2 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM2));
-		assertEquals("Added: " + ITEM3 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM3));
-		assertEquals("Added: " + ITEM4 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM4));
+		assertEquals("All related content: " + "\n1. " + ITEM2 + "\n2. " + ITEM3 + "\n3. " + ITEM4 +"\n", testInstance.determineAndExecuteCommand(DISPLAY_COMMAND, null));
+
 	}
 	
+	@Test
+	//Test the delete function's ability to delete a line in the middle of a file with more than one line. This then proceeds to check if it displays correctly.
+	public void testDeleteMiddleNormal() {
+		
+		assertEquals("Deleted: " + ITEM2 + ". \n", testInstance.determineAndExecuteCommand(DELETE_COMMAND, "2"));
+		assertEquals("All related content: " + "\n1. " + ITEM1 + "\n2. " + ITEM3 + "\n3. " + ITEM4 +"\n", testInstance.determineAndExecuteCommand(DISPLAY_COMMAND, null));
+	}
 	
 	@Test
-	//Tests the Clear function.
-	public void testClear() {
+	//Test the delete function's ability to delete a line at the end of a file with more than one line. This then proceeds to check if it displays correctly.
+	public void testDeleteLastNormal() {
+		
+		assertEquals("Deleted: " + ITEM4 + ". \n", testInstance.determineAndExecuteCommand(DELETE_COMMAND, "4"));
+		assertEquals("All related content: " + "\n1. " + ITEM1 + "\n2. " + ITEM2 + "\n3. " + ITEM3 +"\n", testInstance.determineAndExecuteCommand(DISPLAY_COMMAND, null));
+	}
+	
+	@Test
+	//Test the delete function's ability to delete the only line in a file. 
+	public void testDeleteOneNormal() {
+		
+		testInstance.determineAndExecuteCommand(DELETE_COMMAND, "1");
+		testInstance.determineAndExecuteCommand(DELETE_COMMAND, "1");
+		testInstance.determineAndExecuteCommand(DELETE_COMMAND, "1");
+		
+		assertEquals("Deleted: " + ITEM4 + ". \n", testInstance.determineAndExecuteCommand(DELETE_COMMAND, "1"));
+	}
+	
+	@Test
+	//Test the delete function's ability to handle out of index inputs.
+	public void testDeleteIndexBoundaries() {
+		
+		assertEquals("Unable to remove non-existent line. Please input a number from: 1 to 4. \n", testInstance.determineAndExecuteCommand(DELETE_COMMAND, "5"));
+		assertEquals("Unable to remove non-existent line. Please input a number from: 1 to 4. \n", testInstance.determineAndExecuteCommand(DELETE_COMMAND, "-1"));
+	}
+	
+	@Test
+	//Test the delete function's ability to handle input strings which are not in the set of whole natural numbers.
+	public void testDeleteTypeMismatch() {
+		
+		assertEquals("Please only input a natural number in the range: 1 to 4. \n", testInstance.determineAndExecuteCommand(DELETE_COMMAND, "4.00"));
+		assertEquals("Please only input a natural number in the range: 1 to 4. \n", testInstance.determineAndExecuteCommand(DELETE_COMMAND, "weyfgewiyfwegw"));
+
+	}
+	
+	@Test
+	//Test the delete function's ability to detect if the file is already empty.
+	public void testDeleteAlreadyClear() {
+		
+		testInstance.determineAndExecuteCommand(CLEAR_COMMAND, null);
+		
+		assertEquals("File is already empty. \n", testInstance.determineAndExecuteCommand(DELETE_COMMAND, "1"));
+	}
+	
+	@Test
+	//Test the clear function normally.
+	public void testClearNormal() {
 		
 		assertEquals("All content cleared. \n", testInstance.determineAndExecuteCommand(CLEAR_COMMAND, null));
-		
 	}
 	
 	@Test
-	//Tests the Clear function's error message.
-	public void testClearError() {
+	//Test the clear function to respond to already empty files.
+	public void testClearEmpty() {
+		
+		testInstance.determineAndExecuteCommand(CLEAR_COMMAND, null);
 		
 		assertEquals("File is already empty. \n", testInstance.determineAndExecuteCommand(CLEAR_COMMAND, null));
-		
 	}
 	
 	@Test
-	//Tests the Display function's error message.
-	public void testDisplayError() {
+	//Test the display function's ability to respond to already empty files.
+	public void testDisplayEmpty() {
 		
-		assertEquals("No content to display. \n", testInstance.determineAndExecuteCommand(DISPLAY_COMMAND, null));
-	}
-	
-	@Test
-	//Test the Delete function's error messages.
-	public void testDeleteError() {
-		
-		assertEquals("File is already empty. \n", testInstance.determineAndExecuteCommand(DELETE_COMMAND, "5"));
-		
-		assertEquals("Added: " + ITEM1 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM1));
-		
-		assertEquals("Unable to remove non-existent line. Please input a number from: 1 to 1. \n", testInstance.determineAndExecuteCommand(DELETE_COMMAND, "5"));
-		
-		assertEquals("Added: " + ITEM2 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM2));
-		assertEquals("Added: " + ITEM3 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM3));
-		
-		assertEquals("Unable to remove non-existent line. Please input a number from: 1 to 3. \n", testInstance.determineAndExecuteCommand(DELETE_COMMAND, "5"));
-		
-		assertEquals("All content cleared. \n", testInstance.determineAndExecuteCommand(CLEAR_COMMAND, null));	
-	}
-	
-	@Test
-	//Test for unexpected Commands.
-	public void testUnexpectedCommands() {
-		
-		assertEquals("Unknown command. Please re-enter. " + "\n" + "Available Commands: Add, Display, Delete, Clear, Exit" + ". \n", testInstance.determineAndExecuteCommand("lalala", null));
-	}
+		testInstance.determineAndExecuteCommand(CLEAR_COMMAND, null);
 
+		assertEquals("No available related content to show. \n", testInstance.determineAndExecuteCommand(DISPLAY_COMMAND, null));
+		
+	}
+	
+	@Test
+	//Test determineAndExecuteCommand function's ability to handle unexpected command types.
+	public void testUnexpectedCommandTypes() {
+		
+		assertEquals("Unknown command. Please re-enter. " + "\n" + "Available Commands: Add, Display, Delete, Clear, Exit, Search, Sort" + ". \n", 
+					  testInstance.determineAndExecuteCommand("Not A Valid Command", "Who cares?"));
+		
+		assertEquals("Null command given. \n", testInstance.determineAndExecuteCommand(null, "Who cares?"));
+	}
+	
 	@Test
 	//Test for Search.
-	public void testSearchNormal() {
+	public void testSearchNormal() {	
 		
-		assertEquals("Added: " + ITEM1 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM1));
-		assertEquals("Added: " + ITEM2 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM2));
-		assertEquals("Added: " + ITEM3 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM3));
-		assertEquals("Added: " + ITEM4 + ". \n", testInstance.determineAndExecuteCommand(ADD_COMMAND, ITEM4));
+		assertEquals("All related content: " + "\n1. " + ITEM1 + "\n2. " + ITEM2 + "\n3. " + ITEM3 + "\n", testInstance.determineAndExecuteCommand(SEARCH_COMMAND, "R"));
+	}
+	
+	@Test
+	//Test the output executeSearchCommand gives when there are no hits for the given search term.
+	public void testSearchNoneFound() {
 		
-		assertEquals("Results: " + "\n1. " + ITEM1 + "\n2. " + ITEM2 + "\n3. " + ITEM3 + "\n", testInstance.determineAndExecuteCommand(SEARCH_COMMAND, "R"));
-		
+		assertEquals("No available related content to show. \n", testInstance.determineAndExecuteCommand(SEARCH_COMMAND, "asdioahidfh"));
 	}
 	
 	@Test
@@ -136,6 +159,13 @@ public class TextBuddyTester {
 	public void testSearchError() {
 		
 		assertEquals("Please make sure your input contains at least one letter or number" + ". \n", testInstance.determineAndExecuteCommand(SEARCH_COMMAND, " "));
+	}	
+	
+	@After
+	//Prints a line after each test
+	public void printSingleLine() {
+		
+		System.out.println();
 	}
 	
 	@Test

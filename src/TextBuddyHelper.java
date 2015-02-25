@@ -38,8 +38,8 @@ public class TextBuddyHelper {
 		 * 					   If set to false, then if there are files of the same name, that will be loaded instead.
 		 */
 		
-		file = new File(fileName);
-		fileContents = new ArrayList<String>();
+		this.file = new File(fileName);
+		this.fileContents = new ArrayList<String>();
 		
 		checkFileExists();
 		
@@ -49,7 +49,7 @@ public class TextBuddyHelper {
 		
 		
 	}
-	
+		
 	private void checkFileExists() {
 		
 		/**
@@ -103,8 +103,8 @@ public class TextBuddyHelper {
 			if (line == null) {
 				
 				System.out.println(file.toString() + " is empty.");
-			}
-			else {	
+				
+			} else {	
 				
 				int lineNum = 1;
 				
@@ -143,7 +143,7 @@ public class TextBuddyHelper {
 		 */
 		printWelcomeMessage();
 		
-		displayMenu();
+		inputHandler();
 	}
 
 	private void printWelcomeMessage() { 
@@ -159,17 +159,16 @@ public class TextBuddyHelper {
 
 	//Second-Tier Operations
 	
-	private void displayMenu() { 
+	private void inputHandler() { 
 
 		/**
-		 * Function to handle the UI.
+		 * Function to handle input.
 		 */
 		
 		boolean toContinue = true;
 		Scanner sc = new Scanner(System.in);
 		
 		while (toContinue) {	
-			
 			
 			System.out.print("command: ");
 			
@@ -180,10 +179,8 @@ public class TextBuddyHelper {
 				
 				trailingContent = trailingContent.substring(1, trailingContent.length());
 			}
-			
+				
 			determineAndExecuteCommand(command, trailingContent);
-			
-			writeList(fileContents, file);
 
 			if (command.equals("exit")) {
 				
@@ -195,7 +192,7 @@ public class TextBuddyHelper {
 		sc.close();
 	}
 
-	public String determineAndExecuteCommand(String command,
+	public String determineAndExecuteCommand (String command,
 			String trailingContent) {
 		
 		/**
@@ -204,6 +201,11 @@ public class TextBuddyHelper {
 		 * @param command: The type of command to be executed.
 		 * @param trailingContent: Any input entered after the command.
 		 */
+		
+		if (command == null) {
+			
+			return "Null command given. \n";
+		}
 		
 		String result = "";
 		
@@ -237,7 +239,7 @@ public class TextBuddyHelper {
 				break;
 			
 			default :
-				result = "Unknown command. Please re-enter. " + "\n" + "Available Commands: Add, Display, Delete, Clear, Exit" + ". \n";
+				result = "Unknown command. Please re-enter. " + "\n" + "Available Commands: Add, Display, Delete, Clear, Exit, Search, Sort" + ". \n";
 				break;
 		}
 		
@@ -245,9 +247,11 @@ public class TextBuddyHelper {
 			System.out.print(result);
 		}
 		
+		writeList(fileContents, file);
+		
 		return result;
 	}
-
+	
 	private void writeList(List<String> list, File file){
 		
 		/**
@@ -274,17 +278,19 @@ public class TextBuddyHelper {
 			System.out.println("Error with writing content to file.");
 		}
 	}
+	
 
 	//executeAddCommand()
 	
 	private String executeAddCommand(String toAdd) {
 		
 		/**
-		 * Appends a given line of text to fileContents. Returns a String to be printed for confirmation message.
+		 * Appends a given line of text to fileContents. Returns a String to be printed as a confirmation message for the user.
 		 * 
 		 * @param toAdd: String to be added into fileContents.
 		 */
 		
+
 		if (isValidString(toAdd).equals(SUCCESS_MSG)) {
 			
 			fileContents.add(toAdd);
@@ -295,24 +301,25 @@ public class TextBuddyHelper {
 		return isValidString(toAdd);
 	}
 	
+	
 	//executeDisplayCommand()
 	
 	private String executeDisplayCommand() {
 		
 		/**
-		 * Returns a string containing fileContents. This String will then be printed.
+		 * Returns a string containing fileContents. Returns a String to be printed as a results message for the user.
 		 */
-		
-		String returnVal = printList(fileContents, true, null);
-		return returnVal;
+
+		return printList(fileContents, true, null);
 	}
+	
 	
 	//executeDeleteCommand()
 	
 	private String executeDeleteCommand(String toDelete) {
 		
 		/**
-		 * Function to be called when executing Delete Command. Returns a String as a confirmation message.
+		 * Function to be called when executing Delete Command. Returns a String to be printed as a confirmation message for the user.
 		 * Assumes user enters a Line Number
 		 * Assumes user does not take into account that the starting index is 0 and not 1
 		 * 
@@ -328,8 +335,8 @@ public class TextBuddyHelper {
 				String removedLine = fileContents.remove(delLineNum - 1);
 				
 				return "Deleted: " + removedLine + ". \n";
-			}
-			else {
+				
+			} else {
 				
 				return isValidString(toDelete);
 			}
@@ -344,57 +351,66 @@ public class TextBuddyHelper {
 			if (!fileContents.isEmpty()) {
 				
 				return "Unable to remove non-existent line. Please input a number from: 1 to " + fileContents.size() + ". \n";
-			}
-			else {
+				
+			} else {
 				
 				return "File is already empty. \n";
 			}
 				
-		}
+		}	
 	}
+	
 	
 	//executeClearCommand()
 	
 	private String executeClearCommand() {
 		
 		/**
-		 * Function to be called when executing the Clear command. Returns a String as a completion message.
+		 * Function to be called when executing the Clear command. Returns a String to be printed as a confirmation message for the user.
 		 */
+		
 		if (!fileContents.isEmpty()) {
 			
 			fileContents.clear();
 			
 			if (fileContents.isEmpty()) {
+				
 				return "All content cleared. \n";
-			}
-			else {
+				
+			} else {
 				return "Unable to clear content. \n";
+				
 			}
-		}
-		else {
+			
+		} else {
+			
 			return "File is already empty. \n";
+			
 		}
 	}
+	
 	
 	//executeSortCommand()
 	
 	private String executeSortCommand() {
 	
 	    /**
-	     * Function to be called when executing the Sort command. Returns a success boolean upon completion.
+	     * Function to be called when executing the Sort command. Returns a String to be printed as a confirmation message for the user.
 	     */
-	
+		
 	    Collections.sort(fileContents);
-	    return ("Items sorted" + ". \n");
+	    return ("Items sorted. \n");
+		
 	    
 	}
+	
 
 	//executeSearchCommand()
 	
 	private String executeSearchCommand(String searchTerm) {
 		
 	      /**
-	       * Code that actually handles the search function.
+	       * Code that actually handles the search function. Returns a String to be printed as a results message for the user.
 	       * 
 	       * @param searchItem: String object containing string to be searched within fileContents.
 	       */
@@ -406,31 +422,39 @@ public class TextBuddyHelper {
 			      for (int i=0; i<fileContents.size(); i++) {
 		
 			          if (fileContents.get(i).contains(searchTerm)) {
+			        	  
 			              results.add(fileContents.get(i));
 			          }
 			      }
 			      
 			      return printList(results, false, fileContents);
-			}
-			else {
+			      
+			} else {
 				
 				return isValidString(searchTerm);
+				
 			}
-
-	      
+		
 	}
+	
 	
 	//Additional Functions
 	
-	private String isValidString(String toCheck) {
+	private String isValidString(String toCheck) throws NullPointerException {
 		
 		/**
 		 * Check if given String is valid.
 		 * 
-		 * @param toCheck: The String object to be checked.
+		 * @throws NullPointerException	: If String given is not instantiated.
+		 * 
+		 * @param toCheck				: The String object to be checked.
 		 */
 		
-		if (toCheck.trim().isEmpty()) {
+		if (toCheck == null) {
+			
+			throw new NullPointerException("String to be validified is not instantiated.");
+			
+		} else if (toCheck.trim().isEmpty()) {
 			
 			return "Please make sure your input contains at least one letter or number" + ". \n";
 		}
@@ -438,66 +462,57 @@ public class TextBuddyHelper {
 		return SUCCESS_MSG;
 		
 	}
+	
 		
-	private String printList(List<String> list, boolean defaultBehavior, List<String> secondList) {
+	private String printList(List<String> list, boolean defaultBehavior, List<String> secondList) throws NullPointerException {
 		
 		/**
-		 * Given a list, returns a String containing the list contents, behavior changes according to second argument
+		 * Given a list, returns a String containing the list contents, behavior changes according to second argument.
 		 * 
-		 * @param list: The List object to be printed.
-		 * @param defaultBehavior: Determines function behavior. If this is true, it will return each entry along with their accompanying indexes as per normal. 
-		 * 						   If this is false, it will return each entry along with their accompanying indexes in relation to their position in the second list.
-		 * @param secondList: See defaultBehavior.
+		 * @throws NullPointerException	: If either the first list is null, or if both defaultBehavior is false and secondList is null.
+		 * 
+		 * @param list					: The List object to be printed.
+		 * @param defaultBehavior		: Determines function behavior. If this is true, it will return each entry along with their accompanying indexes as per normal. 
+		 * 						   		  If this is false, it will return each entry along with their accompanying indexes in relation to their position in the second list.
+		 * @param secondList	 		: See defaultBehavior.
 		 */
 		
-		String returnVal = "";
+		if (list == null) {
+			
+			throw new NullPointerException(" 'list' not instantiated.");
+		}
 		
-		if (defaultBehavior) {
+		if (defaultBehavior == false && secondList == null) {
 			
-			/*
-			 * Prints accompanying index as per normal
-			 */
+			throw new NullPointerException(" 'secondList' not instantiated.");
+		}
+		
+		String returnVal = "";
 			
-			if (!list.isEmpty()) {
+		if (!list.isEmpty()) {
+			
+			returnVal += "All related content: " + "\n";
+			
+			for (int index = 0; index < list.size(); index++) {
 				
-				returnVal += "All related content: " + "\n";
-				
-				for (int index = 0; index < list.size(); index++) {
+				if (defaultBehavior) {
 					
 					returnVal += (index+1) + ". " + list.get(index) + "\n";
-				}
-			}
-			else {
-				
-				returnVal = "No content to display. \n";
-			}
-		}
-		else {
-			
-			/*
-			 * Prints accompanying index in relation to secondList
-			 */
-			if (secondList != null) {
-				
-				returnVal += "Results: " + "\n";
-				
-				for (int index = 0; index < list.size(); index++) {
+					
+				} else {
 					
 					returnVal += (secondList.indexOf(list.get(index))+1) + ". " + list.get(index) + "\n";
 				}
-			
-			}
-			else {
-				
-				returnVal = "Null list given. \n";
 			}
 			
+		} else {
+			
+			returnVal = "No available related content to show. \n";
 		}
 		
 		return returnVal;
 			
 	}
-	
 }
 
 
