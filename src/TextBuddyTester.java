@@ -1,3 +1,10 @@
+/*
+ * TextBuddyTester [Build Version 1.0]
+ * Tay Siang Meng Sean
+ */
+
+//@author A0121409R
+
 import static org.junit.Assert.*;
 
 import org.junit.After;

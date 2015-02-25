@@ -10,6 +10,8 @@
  *  
  */
 
+//@author A0121409R
+
 public class TextBuddy {
 	public static void main(String args[])
 	{
