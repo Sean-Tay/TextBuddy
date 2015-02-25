@@ -474,7 +474,7 @@ public class TextBuddyHelper {
 		 * @throws NullPointerException	: If either the first list is null, or if both defaultBehavior is false and secondList is null.
 		 * 
 		 * @param list					: The List object to be printed.
-		 * @param useDefaultBehavior		: Determines function behavior. If this is true, it will return each entry along with their accompanying indexes as per normal. 
+		 * @param useDefaultBehavior	: Determines function behavior. If this is true, it will return each entry along with their accompanying indexes as per normal. 
 		 * 						   		  If this is false, it will return each entry along with their accompanying indexes in relation to their position in the second list.
 		 * @param secondList	 		: See defaultBehavior.
 		 */
