@@ -466,7 +466,7 @@ public class TextBuddyHelper {
 	}
 	
 		
-	private String printList(List<String> list, boolean defaultBehavior, List<String> secondList) throws NullPointerException {
+	private String printList(List<String> list, boolean useDefaultBehavior, List<String> secondList) throws NullPointerException {
 		
 		/**
 		 * Given a list, returns a String containing the list contents, behavior changes according to second argument.
@@ -474,7 +474,7 @@ public class TextBuddyHelper {
 		 * @throws NullPointerException	: If either the first list is null, or if both defaultBehavior is false and secondList is null.
 		 * 
 		 * @param list					: The List object to be printed.
-		 * @param defaultBehavior		: Determines function behavior. If this is true, it will return each entry along with their accompanying indexes as per normal. 
+		 * @param useDefaultBehavior		: Determines function behavior. If this is true, it will return each entry along with their accompanying indexes as per normal. 
 		 * 						   		  If this is false, it will return each entry along with their accompanying indexes in relation to their position in the second list.
 		 * @param secondList	 		: See defaultBehavior.
 		 */
@@ -484,7 +484,7 @@ public class TextBuddyHelper {
 			throw new NullPointerException(" 'list' not instantiated.");
 		}
 		
-		if (defaultBehavior == false && secondList == null) {
+		if (useDefaultBehavior == false && secondList == null) {
 			
 			throw new NullPointerException(" 'secondList' not instantiated.");
 		}
@@ -497,7 +497,7 @@ public class TextBuddyHelper {
 			
 			for (int index = 0; index < list.size(); index++) {
 				
-				if (defaultBehavior) {
+				if (useDefaultBehavior) {
 					
 					returnVal += (index+1) + ". " + list.get(index) + "\n";
 					
