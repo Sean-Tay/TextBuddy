@@ -123,7 +123,7 @@ public class TextBuddyHelper {
 			
 		} catch (FileNotFoundException e) {
 			
-			System.out.println("Error with reader.");
+			System.out.println("Unable to locate file.");
 			
 		} catch (IOException e) {
 			
@@ -402,8 +402,6 @@ public class TextBuddyHelper {
 		
 	    Collections.sort(fileContents);
 	    return ("Items sorted. \n");
-		
-	    
 	}
 	
 
