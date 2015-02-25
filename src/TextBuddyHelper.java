@@ -457,7 +457,7 @@ public class TextBuddyHelper {
 		
 	private String printList(List<String> list, boolean useDefaultBehavior, List<String> secondList) {
 		
-		checkLists(list, useDefaultBehavior, secondList);
+		checksForPrintList(list, useDefaultBehavior, secondList);
 		
 		String returnVal = "";
 			
@@ -481,7 +481,7 @@ public class TextBuddyHelper {
 	 * 
 	 * @throws NullPointerException	: If either the first list is null, or if both defaultBehavior is false and secondList is null.
 	 */
-	private void checkLists(List<String> list, boolean useDefaultBehavior, List<String> secondList) throws NullPointerException {
+	private void checksForPrintList(List<String> list, boolean useDefaultBehavior, List<String> secondList) throws NullPointerException {
 		
 		if (list == null) {
 			
