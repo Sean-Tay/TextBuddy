@@ -33,9 +33,9 @@ public class TextBuddyHelper {
 	/**
 	 * Constructor to initialize elements.
 	 * 
-	 * @param fileName: The name of the file to be loaded/created.
-	 * @param toCleanLoad: If set to true, then a new file will be created, and any files of the same name will be overridden.
-	 * 					   If set to false, then if there are files of the same name, that will be loaded instead.
+	 * @param fileName 	  The name of the file to be loaded/created.
+	 * @param toCleanLoad If set to true, then a new file will be created, and any files of the same name will be overridden.
+	 * 					  If set to false, then if there are files of the same name, that will be loaded instead.
 	 */
 	public TextBuddyHelper(String fileName, boolean toCleanLoad) {
 		
@@ -63,8 +63,8 @@ public class TextBuddyHelper {
 	/**
 	 * Creates a new file based on given Command Line Argument.
 	 * 
-	 * @param toCleanLoad: If set to true, function will create and overwrite any file with the same name, starting clean.
-	 * 					   If set to false, function will instead load the file, and not overwrite.
+	 * @param toCleanLoad If set to true, function will create and overwrite any file with the same name, starting clean.
+	 * 					  If set to false, function will instead load the file, and not overwrite.
 	 */
 	private void createTheFile(boolean toCleanLoad) { 
 	
@@ -84,8 +84,9 @@ public class TextBuddyHelper {
 	/**
 	 * Fills a given list with given file contents, and returns the list. If not given a list, creates a new list on the spot.
 	 * 
-	 * @param list: The List<String> object to be filled with file contents.
-	 * @param file: the File object to be used to fill up list with its contents.
+	 * @param list The List<String> object to be filled with file contents.
+	 * @param file The File object to be used to fill up list with its contents.
+	 * @return 	   The List<String> object filled with the given file contents.
 	 */
 	private List<String> fillList(List<String> list, File file) {
 		
@@ -188,8 +189,9 @@ public class TextBuddyHelper {
 	/**
 	 * The function that determines the command-type.
 	 * 
-	 * @param command: The type of command to be executed.
-	 * @param trailingContent: Any input entered after the command.
+	 * @param command 		   	The type of command to be executed.
+	 * @param trailingContent 	Any input entered after the command.
+	 * @return				   	A ready-to-be-printed String object.
 	 */
 	public String determineAndExecuteCommand (String command, String trailingContent) {
 		
@@ -246,8 +248,8 @@ public class TextBuddyHelper {
 	/**
 	 * Writes a given list of Strings to a file
 	 * 
-	 * @param list: The List object that is the reference for the content to be written into file.
-	 * @param file: The File object for the contents of list to be written to.
+	 * @param list The List object contains the data to be written.
+	 * @param file The File object for the data to be written to.
 	 */
 	private void writeList(List<String> list, File file){
 		
@@ -275,7 +277,8 @@ public class TextBuddyHelper {
 	/**
 	 * Appends a given line of text to fileContents. Returns a String to be printed as a confirmation message for the user.
 	 * 
-	 * @param toAdd: String to be added into fileContents.
+	 * @param toAdd String to be added into fileContents.
+	 * @return 	 	A String object that acts as a confirmation message.
 	 */
 	private String executeAddCommand(String toAdd) {
 
@@ -293,7 +296,9 @@ public class TextBuddyHelper {
 	
 	
 	/**
-	 * Returns a string containing fileContents. Returns a String to be printed as a results message for the user.
+	 * Returns a String containing fileContents.
+	 * 
+	 * @return A String object that contains fileContents in a printable format. Also acts as a confirmation message.
 	 */
 	private String executeDisplayCommand() {
 
@@ -304,10 +309,11 @@ public class TextBuddyHelper {
 	
 	/**
 	 * Function to be called when executing Delete Command. Returns a String to be printed as a confirmation message for the user.
-	 * Assumes user enters a Line Number
+	 * Assumes user enters a line number
 	 * Assumes user does not take into account that the starting index is 0 and not 1
 	 * 
-	 * @param toDelete: A string containing the line number that is to be deleted.
+	 * @param toDelete A String containing the line number that is to be deleted.
+	 * @return 		   A String object that acts as a confirmation message.
 	 */	
 	private String executeDeleteCommand(String toDelete) {
 		
@@ -350,6 +356,8 @@ public class TextBuddyHelper {
 	
 	/**
 	 * Function to be called when executing the Clear command. Returns a String to be printed as a confirmation message for the user.
+	 * 
+	 * @return A String object that acts as a confirmation message.
 	 */
 	private String executeClearCommand() {
 		
@@ -378,6 +386,8 @@ public class TextBuddyHelper {
 	
     /**
      * Function to be called when executing the Sort command. Returns a String to be printed as a confirmation message for the user.
+     * 
+     * @return A String object that acts as a confirmation message.
      */	
 	private String executeSortCommand() {
 
@@ -389,9 +399,10 @@ public class TextBuddyHelper {
 	
 	
     /**
-     * Code that actually handles the search function. Returns a String to be printed as a results message for the user.
+     * Code that actually handles the search function. Returns a String to be printed as a 'results' message for the user.
      * 
-     * @param searchItem: String object containing string to be searched within fileContents.
+     * @param searchTerm String object containing string to be searched within fileContents.
+     * @return			 A String object that contains all relevant items with respect to the searchItem given. 
      */
 	private String executeSearchCommand(String searchTerm) {
 			
@@ -425,9 +436,9 @@ public class TextBuddyHelper {
 	/**
 	 * Check if given String is valid.
 	 * 
-	 * @throws NullPointerException	: If String given is not instantiated.
-	 * 
-	 * @param toCheck				: The String object to be checked.
+	 * @throws NullPointerException If String given is null.
+	 * @param toCheck			 	The String object to be checked.
+	 * @return 						A String that states an error message or a SUCCESS_MSG.
 	 */
 	private String isValidString(String toCheck) throws NullPointerException {
 		
@@ -449,10 +460,11 @@ public class TextBuddyHelper {
 	/**
 	 * Given a list, returns a String containing the list contents, behavior changes according to second argument.
 	 * 
-	 * @param list					: The List object to be printed.
-	 * @param useDefaultBehavior	: Determines function behavior. If this is true, it will return each entry along with their accompanying indexes as per normal. 
-	 * 						   		  If this is false, it will return each entry along with their accompanying indexes in relation to their position in the second list.
-	 * @param secondList	 		: See defaultBehavior.
+	 * @param list				 The List object to be printed.
+	 * @param useDefaultBehavior Determines function behavior. If this is true, it will return each entry along with their accompanying indexes as per normal. 
+	 * 						   	 If this is false, it will return each entry along with their accompanying indexes in relation to their position in the second list.
+	 * @param secondList	 	 See defaultBehavior.
+	 * @return 					 A String that contains the list contents in a printable format.
 	 */	
 		
 	private String printList(List<String> list, boolean useDefaultBehavior, List<String> secondList) {
@@ -496,6 +508,8 @@ public class TextBuddyHelper {
 	
 	/**
 	 * The printList() code that actually appends list contents to the given String.
+	 * 
+	 * @return A String containing only the list contents in a printable format, without a header.
 	 */
 	
 	private String printListWriteString(List<String> list, boolean useDefaultBehavior, List<String> secondList, String returnVal) {
