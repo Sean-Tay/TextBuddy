@@ -1,4 +1,6 @@
 /*
+ * [CE2 Code]
+ * 
  * TextBuddy [Build Version 1.0] Tay Siang Meng Sean
  * 
  * This program allows the user to edit a text file via Command Line. Basic CRUD
@@ -12,19 +14,22 @@
 
 public class TextBuddy {
 
-    public static void main(String args[]) {
+    public static String argChecker(String args[]) {
 
         if (args == null || args.length == 0) {
 
-            TextBuddyHelper instance =
-                    new TextBuddyHelper("mytextfile.txt", false);
-            instance.startUp();
+            return "mytextfile.txt";
 
         } else {
 
-            TextBuddyHelper instance = new TextBuddyHelper(args[0], false);
-            instance.startUp();
-
+            return args[0];
         }
+
+    }
+
+    public static void main(String args[]) {
+
+        TextBuddyHelper instance = new TextBuddyHelper(argChecker(args), false);
+        instance.startUp();
     }
 }

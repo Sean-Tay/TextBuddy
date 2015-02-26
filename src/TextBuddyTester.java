@@ -1,4 +1,6 @@
 /*
+ * [CE2 Code]
+ * 
  * TextBuddyTester [Build Version 1.0]
  * Tay Siang Meng Sean
  */

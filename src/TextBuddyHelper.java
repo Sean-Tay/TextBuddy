@@ -1,4 +1,6 @@
 /*
+ * [CE2 Code]
+ * 
  * TextBuddyHelper [Build Version 1.0] Tay Siang Meng Sean
  */
 
@@ -330,8 +332,8 @@ public class TextBuddyHelper {
     /**
      * Function to be called when executing Delete Command. Returns a String to
      * be printed as a confirmation message for the user. Assumes user enters a
-     * line number Assumes user does not take into account that the starting
-     * index is 0 and not 1
+     * line number. Assumes user does not take into account that the starting
+     * index is 0 and not 1.
      * 
      * @param toDelete
      *            A String containing the line number that is to be deleted.
@@ -530,8 +532,8 @@ public class TextBuddyHelper {
      * Checks for printList().
      * 
      * @throws NullPointerException
-     *             : If either the first list is null, or if both
-     *             defaultBehavior is false and secondList is null.
+     *             If either the first list is null, or if both defaultBehavior
+     *             is false and secondList is null.
      */
     private void checksForPrintList(List<String> list,
                                     boolean useDefaultBehavior,
